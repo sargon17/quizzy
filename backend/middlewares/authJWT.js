@@ -2,29 +2,32 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const verifyToken = function (req, res, next) {
-  "use strict";
+const verifyToken = async function (req, res, next) {
   if (
     req.headers &&
     req.headers.authorization &&
     req.headers.authorization.split(" ")[0] === "JWT"
   ) {
+    console.log(req.headers.authorization.split(" ")[1]);
+
     jwt.verify(
       req.headers.authorization.split(" ")[1],
       process.env.API_SECRET,
-      function (err, decode) {
-        "use strict";
+      async function (err, decode) {
+        console.log(decode);
         if (err) req.user = undefined;
-        User.findOne({
-          _id: decode._id,
-        }).exec((err, user) => {
-          if (err) {
-            res.status(500).send({ message: err.message });
-          } else {
-            req.user = user;
-            next();
-          }
-        });
+        // console.log("authJWT.js: connected user id -> ", decode._id);
+        let user;
+        try {
+          user = await User.findOne({ _id: decode._id }).exec();
+          req.user = user;
+          next();
+        } catch (err) {
+          console.log("authJWT.js: finding user Error ", err);
+          res.status(500).json({
+            message: err,
+          });
+        }
       }
     );
   } else {
