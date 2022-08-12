@@ -10,12 +10,20 @@ const { signup, signin } = require("../controllers/auth.controller");
 router.post("/signup", signup);
 router.post("/signin", signin);
 
-router.get("/hiddencontent", verifyToken, (req, res) => {
-  "use strict";
-  if (!user) {
-    res.status(403).send({ message: "Invalid token" });
+// router.get("/secret", verifyToken, (req, res) => {
+//   "use strict";
+//   if (!req.user) {
+//     res.status(403).json({ message: "Invalid token" });
+//   }
+//   res.status(200).json({ message: "This is a secret content" });
+// });
+router.get("/isAuth", verifyToken, (req, res) => {
+  console.log("isAuth");
+  ("use strict");
+  if (!req.user) {
+    res.status(403).json({ message: "Unauthorized", isAuth: false });
   }
-  res.status(200).send({ message: "This is a secret content" });
+  res.status(200).json({ message: "Authorized", isAuth: true });
 });
 
 module.exports = router;
