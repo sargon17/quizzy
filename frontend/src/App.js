@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useCookies } from "react-cookie";
+import { useState } from "react";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Link to="/login">Login</Link>
+        <br />
+        <Link to="/register">Register</Link>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard/:userName" element={<Dashboard />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
