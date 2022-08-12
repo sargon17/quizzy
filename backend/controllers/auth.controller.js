@@ -1,8 +1,9 @@
+/*jslint es6 */
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
-exports.signup = async (req, res, next) => {
+exports.signup = async (req, res) => {
   const user = new User({
     userName: req.body.userName,
     email: req.body.email,

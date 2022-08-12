@@ -1,7 +1,9 @@
+/*jslint es6 */
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const verifyToken = (req, res, next) => {
+const verifyToken = function (req, res, next) {
+  "use strict";
   if (
     req.headers &&
     req.headers.authorization &&
@@ -11,6 +13,7 @@ const verifyToken = (req, res, next) => {
       req.headers.authorization.split(" ")[1],
       process.env.API_SECRET,
       function (err, decode) {
+        "use strict";
         if (err) req.user = undefined;
         User.findOne({
           _id: decode._id,
