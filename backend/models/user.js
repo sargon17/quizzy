@@ -1,8 +1,6 @@
 /*jslint es6 */
 const mongoose = require("mongoose");
 
-// use strict mode
-
 const userSchema = new mongoose.Schema({
   userName: {
     type: String,
