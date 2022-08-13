@@ -4,6 +4,19 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
 exports.signup = async (req, res) => {
+  // check for passwords match
+  if (req.body.password !== req.body.confirmPassword) {
+    return res.status(401).json({ message: "Passwords do not match." });
+  }
+  // check if email is already registered
+  if (await User.findOne({ email: req.body.email })) {
+    return res.status(401).json({ message: "Email is already taken." });
+  }
+  // check if userName is already registered
+  if (await User.findOne({ userName: req.body.userName })) {
+    return res.status(401).json({ message: "User name is already taken." });
+  }
+
   const user = new User({
     userName: req.body.userName,
     email: req.body.email,

@@ -11,6 +11,7 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState({ isOn: false, message: "Error" });
 
   //   check if user is authenticated and redirect to dashboard if so
   useEffect(() => {
@@ -24,7 +25,12 @@ export default function Register() {
   const registerUser = async () => {
     console.log(registration);
 
-    // TODO: validate registration
+    // control if passwords match
+    if (registration.password !== registration.confirmPassword) {
+      setError({ isOn: true, message: "Passwords do not match" });
+      return;
+    }
+
     const headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -32,8 +38,7 @@ export default function Register() {
     urlencoded.append("userName", registration.userName);
     urlencoded.append("email", registration.email);
     urlencoded.append("password", registration.password);
-    // TODO: implement confirm password control
-    // urlencoded.append("confirmPassword", registration.confirmPassword);
+    urlencoded.append("confirmPassword", registration.confirmPassword);
 
     const requestOptions = {
       method: "POST",
@@ -45,6 +50,9 @@ export default function Register() {
     fetch("http://localhost:5000/user/signup", requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        if (result.status !== 200) {
+          setError({ isOn: true, message: result.message });
+        }
         console.log(result);
         if (result.accessToken) {
           setCookie("accessToken", result.accessToken, { path: "/" });
@@ -61,9 +69,12 @@ export default function Register() {
   return (
     <div>
       <h1>Register</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
-      </p>
+      {error.isOn && (
+        <div>
+          {" "}
+          <p> {error.message} </p>{" "}
+        </div>
+      )}
       <div>
         <div>
           <label htmlFor="userName">Username</label>
@@ -96,7 +107,7 @@ export default function Register() {
         <div>
           <label htmlFor="password">password</label>
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             value={registration.password}
@@ -110,7 +121,7 @@ export default function Register() {
         <div>
           <label htmlFor="confirmPassword">confirmPassword</label>
           <input
-            type="text"
+            type="password"
             name="confirmPassword"
             id="confirmPassword"
             value={registration.confirmPassword}
@@ -125,6 +136,12 @@ export default function Register() {
           onClick={() => {
             registerUser();
           }}
+          disabled={
+            registration.userName === "" ||
+            registration.email === "" ||
+            registration.password === "" ||
+            registration.confirmPassword === ""
+          }
         >
           Register
         </button>

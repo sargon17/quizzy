@@ -7,10 +7,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "User name is required"],
   },
   email: {
+    unique: [true, "Email is already registered"],
     type: String,
     required: [true, "Email is required"],
     lowercase: true,
-    unique: [true, "Email already exists"],
     validate: {
       validator: function (v) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
