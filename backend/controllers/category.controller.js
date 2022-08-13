@@ -10,8 +10,18 @@ const fs = require("fs");
 const saveImage = require("../utils/saveImage");
 const imageMimeType = ["image/jpeg", "image/png", "image/gif"];
 exports.allCategories = async (req, res) => {
+  let categories;
   try {
-    let categories = await Category.find({}).exec();
+    let c = await Category.find({}).exec();
+
+    categories = c.map((category) => {
+      return {
+        id: category._id,
+        title: category.title,
+        image: category.imagePath,
+        imageType: category.imageType,
+      };
+    });
 
     res.status(200).json({
       message: "Categories retrieved successfully!",

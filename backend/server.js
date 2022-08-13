@@ -8,11 +8,6 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const multer = require("multer");
-
-// todo to delete
-const formidable = require("formidable");
-// const path = require("path");
 
 app.use(
   cors({
@@ -22,20 +17,10 @@ app.use(
   })
 );
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/images/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname + "-" + Date.now());
-  },
-});
-
-const upload = multer({ storage: storage });
-
 const userRouter = require("./routes/user");
 const quizRouter = require("./routes/api/quiz");
 const categoryRouter = require("./routes/api/category");
+const subCategoryRouter = require("./routes/api/sub_category");
 
 // POST method route override
 const methodOverride = require("method-override");
@@ -63,23 +48,7 @@ mongoose
 app.use("/user", userRouter);
 app.use("/api/quiz", quizRouter);
 app.use("/api/category", categoryRouter);
-
-app.post("/upload", (req, res) => {
-  const form = formidable({ multiples: true });
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
-    } else {
-      res.status(200).json({
-        message: "File uploaded successfully",
-        fields,
-        files,
-      });
-    }
-  });
-});
+app.use("/api/sub_category", subCategoryRouter);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server started on port 5000");

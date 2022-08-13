@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const SubCategory = require("./sub_category");
+
 const categorySchema = new mongoose.Schema({
   title: {
     type: String,
@@ -20,6 +22,14 @@ categorySchema.virtual("imagePath").get(function () {
     return `data:${this.imageType};charset=utf-8;base64,${this.image.toString(
       "base64"
     )}`;
+  }
+});
+
+categorySchema.pre("remove", async function (next) {
+  try {
+    await SubCategory.deleteMany({ category: this._id });
+  } catch (error) {
+    next(error);
   }
 });
 

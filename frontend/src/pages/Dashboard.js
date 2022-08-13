@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import checkUserAuth from "../utils/checkUserAuth";
 
 import CreateCategory from "../components/createCategory";
+import CreateSubCategory from "../components/createSubCategory";
 
 export default function Dashboard() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -47,6 +48,7 @@ export default function Dashboard() {
       <h1>Hello {isAuthenticated ? userName : "unknown user"}</h1>{" "}
       <button onClick={logout}>Logout</button>
       <CreateCategory />
+      <CreateSubCategory />
     </div>
   );
 }
