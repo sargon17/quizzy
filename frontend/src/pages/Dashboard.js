@@ -7,6 +7,7 @@ import checkUserAuth from "../utils/checkUserAuth";
 
 import CreateCategory from "../components/createCategory";
 import CreateSubCategory from "../components/createSubCategory";
+import CreateQuiz from "../components/createQuiz";
 
 export default function Dashboard() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -47,6 +48,7 @@ export default function Dashboard() {
     <div>
       <h1>Hello {isAuthenticated ? userName : "unknown user"}</h1>{" "}
       <button onClick={logout}>Logout</button>
+      <CreateQuiz userID={cookies.user._id} />
       <CreateCategory />
       <CreateSubCategory />
     </div>

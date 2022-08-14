@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-// const verifyToken = require("../../middlewares/authJWT");
+const verifyToken = require("../../middlewares/authJWT");
+const upload = require("../../utils/storage");
 
 const {
   allQuizzes,
@@ -10,7 +11,7 @@ const {
 } = require("../../controllers/quiz.controller");
 
 router.get("/all", allQuizzes); // get all quizzes
-router.post("/create", createQuiz); // create quiz
+router.post("/create", upload.single("image"), createQuiz); // create quiz
 router.get("/:id", quizById); // get quiz by id
 router.delete("/:id/:userID", deleteQuiz); // delete quiz
 

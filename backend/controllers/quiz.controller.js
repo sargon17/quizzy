@@ -3,6 +3,8 @@ const Question = require("../models/question");
 const Answer = require("../models/answer");
 const User = require("../models/user");
 
+const fs = require("fs");
+
 // utils
 const saveImage = require("../utils/saveImage");
 
@@ -36,10 +38,18 @@ exports.quizById = async (req, res) => {
 };
 
 exports.createQuiz = async (req, res) => {
+  const image = fs.readFileSync(req.file.path);
+  const encode_image = image.toString("base64");
+  const finalImg = {
+    contentType: req.file.mimetype,
+    image: new Buffer.from(encode_image, "base64"),
+  };
   let quiz = new Quiz({
     title: req.body.title,
     description: req.body.description,
-    // subCategory: req.subCategory,
+    subCategory: req.body.subCategory,
+    image: finalImg.image,
+    imageType: finalImg.contentType,
   });
   let creator;
   try {

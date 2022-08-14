@@ -2,26 +2,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import "filepond/dist/filepond.min.css";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
-import { FilePond, registerPlugin } from "react-filepond";
-import FilePondPluginFileEncode from "filepond-plugin-file-encode";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import FilePondPluginImageResize from "filepond-plugin-image-resize";
-
-registerPlugin(
-  //   FilePondPluginFileEncode,
-  FilePondPluginImagePreview,
-  FilePondPluginImageResize
-);
+import LoadImage from "./loadImage";
 
 export default function CreateCategory() {
   const [data, setData] = useState({
     title: "",
   });
   const [image, setImage] = useState("");
-
   const [categories, setCategories] = useState([]);
 
   const createCategory = () => {
@@ -37,7 +24,7 @@ export default function CreateCategory() {
         transformRequest: (formData) => formData,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         getCategories();
       })
       .catch((error) => {
@@ -50,7 +37,7 @@ export default function CreateCategory() {
       .get("http://localhost:5000/api/category")
       .then((response) => {
         setCategories(response.data.categories);
-        console.log(response.data.categories);
+        // console.log(response.data.categories);
       })
       .catch((error) => {
         console.log(error);
@@ -74,12 +61,14 @@ export default function CreateCategory() {
           })
         }
       />
+      <br />
       <label htmlFor="image">Image</label>
-      <FilePond
+      {/* <FilePond
         onupdatefiles={setImage}
         allowImageResize
         imageResizeTargetWidth={640}
-      />
+      /> */}
+      <LoadImage setImage={setImage} />
       <button onClick={createCategory}>Create</button>
       <ul>
         {categories &&

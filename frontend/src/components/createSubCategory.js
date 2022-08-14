@@ -2,23 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import "filepond/dist/filepond.min.css";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
-import { FilePond, registerPlugin } from "react-filepond";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import FilePondPluginImageResize from "filepond-plugin-image-resize";
-
-registerPlugin(
-  //   FilePondPluginFileEncode,
-  FilePondPluginImagePreview,
-  FilePondPluginImageResize
-);
+import LoadImage from "./loadImage";
 
 export default function CreateSubCategory() {
   const [data, setData] = useState({
     title: "",
-    categoryId: "",
+    categoryID: "",
   });
   const [image, setImage] = useState("");
 
@@ -39,7 +28,7 @@ export default function CreateSubCategory() {
         transformRequest: (formData) => formData,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         getSubCategories();
       })
       .catch((error) => {
@@ -48,12 +37,11 @@ export default function CreateSubCategory() {
   };
 
   const getSubCategories = () => {
-    console.log("getSubCategories: " + data.categoryID);
     axios
       .get(`http://localhost:5000/api/sub_category/${data.categoryID}`)
       .then((response) => {
         setSubCategories(response.data.subCategories);
-        console.log(response.data.subCategories);
+        // console.log(response.data.subCategories);
       })
       .catch((error) => {
         console.log(error);
@@ -64,8 +52,10 @@ export default function CreateSubCategory() {
     axios
       .get("http://localhost:5000/api/category")
       .then((response) => {
+        setData({ ...data, categoryID: response.data.categories[0].id });
+        console.log(data);
         setCategories(response.data.categories);
-        console.log(response.data.categories);
+        // console.log(response.data.categories);
       })
       .catch((error) => {
         console.log(error);
@@ -73,11 +63,20 @@ export default function CreateSubCategory() {
   };
 
   useEffect(() => {
-    getCategories();
+    fetchData();
   }, []);
   useEffect(() => {
     getSubCategories();
   }, [data.categoryID]);
+
+  const fetchData = async () => {
+    try {
+      await getCategories();
+      await getSubCategories();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -92,6 +91,7 @@ export default function CreateSubCategory() {
           })
         }
       />
+      <br />
       <label htmlFor="title">Title</label>
       <select
         id="categoryID"
@@ -102,26 +102,27 @@ export default function CreateSubCategory() {
         }
       >
         {categories.map((category) => (
-          <option key={category.id} value={category.id}>
+          <option
+            key={category.id}
+            value={category.id}
+            selected={data.categoryID === category.id}
+          >
             {category.title}
           </option>
         ))}
       </select>
-
+      <br />
       <label htmlFor="image">Image</label>
-      <FilePond
-        onupdatefiles={setImage}
-        allowImageResize
-        imageResizeTargetWidth={640}
-      />
+      <LoadImage setImage={setImage} />
+      <br />
       <button onClick={createSubCategory}>Create</button>
       <ul>
         {subCategories &&
           subCategories.map((category) => (
-            <li key={category.id}>
+            <li key={category.id + category.title}>
               {category.title}
-              <p>{category.category}</p>
-              <img src={category.image} width="300" />
+              <p>{category.category.title}</p>
+              <img src={category.imagePath} width="300" />
             </li>
           ))}
       </ul>

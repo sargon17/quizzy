@@ -3,28 +3,41 @@ const SubCategory = require("../models/sub_category");
 
 const fs = require("fs");
 
-exports.allSubCategories = async (req, res) => {
-  console.log("allSubCategories: " + req.params.categoryID);
-  let subCategories;
+exports.getSubCategories = async (req, res) => {
   try {
-    let c = await SubCategory.find({ category: req.params.categoryID }).exec();
-
-    subCategories = await c.map(async (subCategory) => {
-      result = {
-        id: subCategory._id,
-        title: subCategory.title,
-        image: subCategory.imagePath,
-        imageType: subCategory.imageType,
-      };
-      result.category = await Category.findById(subCategory.category).exec();
-      return result;
-    });
-
+    const subCategories = await SubCategory.find({})
+      .populate("category")
+      .exec();
     res.status(200).json({
       message: "Sub Categories retrieved successfully!",
       subCategories: subCategories,
     });
   } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+exports.subCategoriesByCategory = async (req, res) => {
+  let subCategories;
+  try {
+    let c = await SubCategory.find({ category: req.params.categoryID })
+      .populate("category")
+      .exec();
+
+    subCategories = c.map((subCategory) => {
+      return {
+        id: subCategory.id,
+        title: subCategory.title,
+        imagePath: subCategory.imagePath,
+        category: subCategory.category,
+      };
+    });
+    res.status(200).json({
+      message: "Sub Categories retrieved successfully!",
+      subCategories: subCategories,
+    });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
