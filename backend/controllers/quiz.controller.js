@@ -11,7 +11,18 @@ const saveImage = require("../utils/saveImage");
 // get quizzes
 exports.allQuizzes = async (req, res) => {
   try {
-    const quizzes = await Quiz.find({}).exec();
+    const q = await Quiz.find({}).populate("subCategory").exec();
+
+    let quizzes = q.map((quiz) => {
+      return {
+        id: quiz.id,
+        title: quiz.title,
+        description: quiz.description,
+        subCategory: quiz.subCategory,
+        image: quiz.imagePath,
+      };
+    });
+
     res.status(200).json({
       message: "Quizzes retrieved successfully!",
       quizzes: quizzes,
@@ -22,8 +33,17 @@ exports.allQuizzes = async (req, res) => {
 };
 
 exports.quizById = async (req, res) => {
+  console.log(req.params.id);
   try {
-    const quiz = await Quiz.findById(req.params.id).exec();
+    let q = await Quiz.findById(req.params.id).exec();
+
+    quiz = {
+      id: q.id,
+      title: q.title,
+      description: q.description,
+      subCategory: q.subCategory,
+      image: q.imagePath,
+    };
     // console.log(quiz);
     res.status(200).json({
       message: "Quiz retrieved successfully!",
@@ -47,13 +67,13 @@ exports.createQuiz = async (req, res) => {
   let quiz = new Quiz({
     title: req.body.title,
     description: req.body.description,
-    subCategory: req.body.subCategory,
+    subCategory: req.body.subCategoryID,
     image: finalImg.image,
     imageType: finalImg.contentType,
   });
   let creator;
   try {
-    creator = await User.findOne({ _id: req.body.userID }).exec();
+    creator = await User.findOne({ _id: req.body.creatorID }).exec();
     quiz.creator = creator.id;
     await quiz.save();
     res.status(200).json({
