@@ -8,6 +8,8 @@ const fs = require("fs");
 
 // utils
 const saveImage = require("../utils/saveImage");
+const sub_category = require("../models/sub_category");
+const { default: mongoose } = require("mongoose");
 const imageMimeType = ["image/jpeg", "image/png", "image/gif"];
 exports.allCategories = async (req, res) => {
   let categories;
