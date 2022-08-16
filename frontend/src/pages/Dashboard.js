@@ -14,6 +14,7 @@ export default function Dashboard() {
   const { userName } = useParams();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // check if user is authenticated
   useEffect(() => {
     if (cookies.user && cookies.accessToken) {
       if (!checkUserAuth(cookies)) {
