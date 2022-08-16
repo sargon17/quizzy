@@ -21,6 +21,7 @@ const userRouter = require("./routes/user");
 const quizRouter = require("./routes/api/quiz");
 const categoryRouter = require("./routes/api/category");
 const subCategoryRouter = require("./routes/api/sub_category");
+const questionRouter = require("./routes/api/Q&A");
 
 // POST method route override
 const methodOverride = require("method-override");
@@ -49,6 +50,7 @@ app.use("/user", userRouter);
 app.use("/api/quiz", quizRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/sub_category", subCategoryRouter);
+app.use("/api/qa", questionRouter);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server started on port 5000");
