@@ -4,6 +4,7 @@ import Homepage from "./pages/Homepage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import QuizControlPage from "./pages/QuizControlPage";
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard/:userName" element={<Dashboard />} />
+          <Route
+            path="/quiz-controller/:quizID"
+            element={<QuizControlPage />}
+          />
         </Routes>
       </div>
     </Router>

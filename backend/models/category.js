@@ -15,6 +15,7 @@ const categorySchema = new mongoose.Schema({
     type: String,
     required: [true, "Cover image type is required"],
   },
+  subCategories: [],
 });
 
 categorySchema.virtual("imagePath").get(function () {
