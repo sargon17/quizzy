@@ -1,0 +1,298 @@
+@import "../variables";
+
+// -----------------------------------------------------------------------------
+
+// ======================= VARIABLES
+// ============ Padding
+$btn_padding--xs: 4px 12px;
+$btn_padding--sm: 10px 30px;
+$btn_padding: 16px 46px;
+$btn_padding--lg: 20px 58px;
+// ============ Margins
+$btn_margin-x: 10px;
+$btn_margin-y: 20px;
+$btn-r-l-margins: calc(#{$btn_margin-x} * 2);
+// ============ Font size
+$btn_font_size: 14px;
+$btn_font_size--lg: 18px;
+
+// ============ Font weight
+$btn_font_weight: 700;
+// ============ Border radius
+$btn_border_radius--sm: 4px;
+$btn_border_radius--md: 10px;
+$btn_border_radius--lg: 16px;
+// ============ Border width
+$btn_border_width: 1px;
+// ============ colors
+$btn_c_disabled: #5e5e5e;
+$btn_c_disabled_text: #898989;
+// ============ box shadow
+$btn_box_shadow: 0px 6px 4px -4px;
+
+// %outlined {
+//   background-color: transparent;
+//   border-width: $btn_border_width;
+//   border-style: solid;
+// }
+
+@mixin outlined {
+  background-color: transparent;
+  border-width: $btn_border_width;
+  border-style: solid;
+}
+
+.btn {
+  display: inline-block;
+  //---------------------
+  border: none;
+  color: #fff;
+  //---------------------
+  padding: $btn_padding;
+  margin-top: $btn_margin-y;
+  margin-bottom: $btn_margin-y;
+  margin-left: $btn_margin-x;
+  margin-right: $btn_margin-x;
+  //---------------------
+  font-family: $ff_primary;
+  font-size: $btn_font_size;
+  font-weight: $btn_font_weight;
+  //--------
+  border-width: $btn_border_width;
+  border-style: solid;
+  border-color: $c_primary;
+  //--------
+  transition: $transition;
+
+  &:hover {
+    background-color: $c_primary-600;
+  }
+  &:active {
+    background-color: $c_primary-800;
+    transition: all 5ms ease-in-out;
+  }
+  &:disabled {
+    background-color: $btn_c_disabled;
+    border-color: $btn_c_disabled;
+    color: $btn_c_disabled_text;
+    box-shadow: none;
+
+    &:hover {
+      background-color: $btn_c_disabled;
+      border-color: $btn_c_disabled;
+      color: $btn_c_disabled_text;
+    }
+    &:active {
+      background-color: $btn_c_disabled;
+      border-color: $btn_c_disabled;
+      color: $btn_c_disabled_text;
+    }
+    cursor: not-allowed;
+  }
+
+  // -----------------------------------------------------------------------------
+  // ======================= Button dimensions
+  &-xs {
+    padding: $btn_padding--xs;
+  }
+  &-sm {
+    padding: $btn_padding--sm;
+  }
+  &-lg {
+    padding: $btn_padding--lg;
+    font-size: $btn_font_size--lg;
+  }
+  &-full-w {
+    width: calc(100% - #{$btn-r-l-margins});
+  }
+  // -----------------------------------------------------------------------------
+  // ======================= Button border radius
+  &-round {
+    &-s {
+      border-radius: $btn_border_radius--sm;
+    }
+    &-m {
+      border-radius: $btn_border_radius--md;
+    }
+    &-l {
+      border-radius: $btn_border_radius--lg;
+    }
+  }
+  &-circle {
+    border-radius: 120px;
+  }
+
+  // -----------------------------------------------------------------------------
+  // ======================= Button Variants
+  &-primary {
+    background-color: $c_primary;
+    border-color: $c_primary;
+    &:hover {
+      background-color: $c_primary-600;
+    }
+    &:active {
+      background-color: $c_primary-800;
+      transition: all 5ms ease-in-out;
+    }
+    &-outlined {
+      @include outlined;
+      color: $c_primary;
+
+      &:hover {
+        background-color: $c_primary-transparent-10;
+      }
+      &:active {
+        background-color: $c_primary-transparent-20;
+        transition: all 5ms ease-in-out;
+      }
+    }
+    &--shadow {
+      box-shadow: $btn_box_shadow
+        adjust-color($color: $c_primary-800, $alpha: -0.6);
+    }
+  }
+  &-secondary {
+    background-color: $c_secondary;
+    border-color: $c_secondary;
+    &:hover {
+      background-color: $c_secondary-600;
+    }
+    &:active {
+      background-color: $c_secondary-800;
+      transition: all 5ms ease-in-out;
+    }
+    &-outlined {
+      @include outlined;
+      color: $c_secondary;
+      border-color: $c_secondary;
+
+      &:hover {
+        background-color: $c_secondary-transparent-10;
+      }
+      &:active {
+        background-color: $c_secondary-transparent-20;
+        transition: all 5ms ease-in-out;
+      }
+    }
+    &--shadow {
+      box-shadow: $btn_box_shadow
+        adjust-color($color: $c_secondary-800, $alpha: -0.6);
+    }
+  }
+  &-tertiary {
+    background-color: $c_tertiary;
+    border-color: $c_tertiary;
+    &:hover {
+      background-color: $c_tertiary-600;
+    }
+    &:active {
+      background-color: $c_tertiary-800;
+      transition: all 5ms ease-in-out;
+    }
+    &-outlined {
+      @include outlined;
+      color: $c_tertiary;
+      border-color: $c_tertiary;
+
+      &:hover {
+        background-color: $c_tertiary-transparent-10;
+      }
+      &:active {
+        background-color: $c_tertiary-transparent-20;
+        transition: all 5ms ease-in-out;
+      }
+    }
+    &--shadow {
+      box-shadow: $btn_box_shadow
+        adjust-color($color: $c_tertiary-800, $alpha: -0.6);
+    }
+  }
+  &-error {
+    background-color: $c_error;
+    border-color: $c_error;
+    &:hover {
+      background-color: $c_error-600;
+    }
+    &:active {
+      background-color: $c_error-800;
+      transition: all 5ms ease-in-out;
+    }
+    &-outlined {
+      @include outlined;
+      color: $c_error;
+      border-color: $c_error;
+
+      &:hover {
+        background-color: $c_error-transparent-10;
+      }
+      &:active {
+        background-color: $c_error-transparent-20;
+        transition: all 5ms ease-in-out;
+      }
+    }
+    &--shadow {
+      box-shadow: $btn_box_shadow
+        adjust-color($color: $c_error-800, $alpha: -0.6);
+    }
+  }
+  &-alert {
+    background-color: $c_alert;
+    border-color: $c_alert;
+    &:hover {
+      background-color: $c_alert-600;
+    }
+    &:active {
+      background-color: $c_alert-800;
+      transition: all 5ms ease-in-out;
+    }
+    &-outlined {
+      @include outlined;
+      color: $c_alert;
+      border-color: $c_alert;
+
+      &:hover {
+        background-color: $c_alert-transparent-10;
+      }
+      &:active {
+        background-color: $c_alert-transparent-20;
+        transition: all 5ms ease-in-out;
+      }
+    }
+    &--shadow {
+      box-shadow: $btn_box_shadow
+        adjust-color($color: $c_alert-800, $alpha: -0.6);
+    }
+  }
+
+  &-icon {
+    padding: 16px;
+    aspect-ratio: 1;
+    font-size: 24px;
+    line-height: 0;
+    vertical-align: sub;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    &-rg {
+      padding-right: 39px;
+      * {
+        vertical-align: sub;
+      }
+      svg {
+        margin-left: 12px;
+      }
+    }
+    &-lf {
+      padding-left: 39px;
+      * {
+        vertical-align: sub;
+      }
+      svg {
+        margin-right: 12px;
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+// ======================= FONTS
+$ff_primary: "Open Sans", sans-serif;
+
+// ======================= COLORS
+// ============== Primary
+// ======== solid
+$c_primary-50: #69a4fa;
+$c_primary-100: #5e9bf6;
+$c_primary-200: #4689ed;
+$c_primary-300: #2f78e3;
+$c_primary-400: #1766da;
+$c_primary-500: #0054d1;
+$c_primary-600: #0047b0;
+$c_primary-700: #003a90;
+$c_primary-800: #003a90;
+$c_primary-900: #003a90;
+// ======== transparent
+$c_primary-transparent-10: rgba(0, 84, 209, 0.1);
+$c_primary-transparent-20: rgba(0, 84, 209, 0.2);
+$c_primary-transparent-30: rgba(0, 84, 209, 0.3);
+$c_primary-transparent-40: rgba(0, 84, 209, 0.4);
+$c_primary-transparent-50: rgba(0, 84, 209, 0.5);
+$c_primary-transparent-60: rgba(0, 84, 209, 0.6);
+$c_primary-transparent-70: rgba(0, 84, 209, 0.7);
+$c_primary-transparent-80: rgba(0, 84, 209, 0.8);
+$c_primary-transparent-90: rgba(0, 84, 209, 0.9);
+// ======== final
+$c_primary: $c_primary-500;
+
+// ============== Secondary
+// ======== solid
+$c_secondary-50: #fc9fc9;
+$c_secondary-100: #fa8ebe;
+$c_secondary-200: #f46aa8;
+$c_secondary-300: #ef4792;
+$c_secondary-400: #e9237c;
+$c_secondary-500: #e40066;
+$c_secondary-600: #bb0054;
+$c_secondary-700: #920042;
+$c_secondary-800: #6a002f;
+$c_secondary-900: #41001d;
+// ======== transparent
+$c_secondary-transparent-10: rgba(228, 0, 103, 0.1);
+$c_secondary-transparent-20: rgba(228, 0, 103, 0.2);
+$c_secondary-transparent-30: rgba(228, 0, 103, 0.3);
+$c_secondary-transparent-40: rgba(228, 0, 103, 0.4);
+$c_secondary-transparent-50: rgba(228, 0, 103, 0.5);
+$c_secondary-transparent-60: rgba(228, 0, 103, 0.6);
+$c_secondary-transparent-70: rgba(228, 0, 103, 0.7);
+$c_secondary-transparent-80: rgba(228, 0, 103, 0.8);
+$c_secondary-transparent-90: rgba(228, 0, 103, 0.9);
+// ======== final
+$c_secondary: $c_secondary-500;
+
+// ============== Tertiary
+// ======== solid
+$c_tertiary-50: #cdf2e0;
+$c_tertiary-100: #bdeed6;
+$c_tertiary-200: #9ce5c2;
+$c_tertiary-300: #7cddae;
+$c_tertiary-400: #5bd49a;
+$c_tertiary-500: #3bcc86;
+$c_tertiary-600: #32ad71;
+$c_tertiary-700: #288d5c;
+$c_tertiary-800: #1f6e48;
+$c_tertiary-900: #154e33;
+// ======== transparent
+$c_tertiary-transparent-10: rgba(59, 204, 134, 0.1);
+$c_tertiary-transparent-20: rgba(59, 204, 134, 0.2);
+$c_tertiary-transparent-30: rgba(59, 204, 134, 0.3);
+$c_tertiary-transparent-40: rgba(59, 204, 134, 0.4);
+$c_tertiary-transparent-50: rgba(59, 204, 134, 0.5);
+$c_tertiary-transparent-60: rgba(59, 204, 134, 0.6);
+$c_tertiary-transparent-70: rgba(59, 204, 134, 0.7);
+$c_tertiary-transparent-80: rgba(59, 204, 134, 0.8);
+$c_tertiary-transparent-90: rgba(59, 204, 134, 0.9);
+// ======== final
+$c_tertiary: $c_tertiary-500;
+
+// ============== Error
+// ======== solid
+$c_error-50: #fee4e6;
+$c_error-100: #fed1d3;
+$c_error-200: #fca9ad;
+$c_error-300: #fb8288;
+$c_error-400: #f95a62;
+$c_error-500: #f8333c;
+$c_error-600: #d92931;
+$c_error-700: #ba2027;
+$c_error-800: #9a161c;
+$c_error-900: #7b0d12;
+// ======== transparent
+$c_error-transparent-10: rgba(248, 51, 61, 0.1);
+$c_error-transparent-20: rgba(248, 51, 61, 0.2);
+$c_error-transparent-30: rgba(248, 51, 61, 0.3);
+$c_error-transparent-40: rgba(248, 51, 61, 0.4);
+$c_error-transparent-50: rgba(248, 51, 61, 0.5);
+$c_error-transparent-60: rgba(248, 51, 61, 0.6);
+$c_error-transparent-70: rgba(248, 51, 61, 0.7);
+$c_error-transparent-80: rgba(248, 51, 61, 0.8);
+$c_error-transparent-90: rgba(248, 51, 61, 0.9);
+// ======== final
+$c_error: $c_error-500;
+
+// ============== Alert
+// ======== solid
+$c_alert-50: #ffebc5;
+$c_alert-100: #fee4b1;
+$c_alert-200: #fed689;
+$c_alert-300: #fdc760;
+$c_alert-400: #fdb938;
+$c_alert-500: #fcab10;
+$c_alert-600: #d6910d;
+$c_alert-700: #b0770a;
+$c_alert-800: #8b5e07;
+$c_alert-900: #654404;
+// ======== transparent
+$c_alert-transparent-10: rgba(252, 169, 16, 0.1);
+$c_alert-transparent-20: rgba(252, 169, 16, 0.2);
+$c_alert-transparent-30: rgba(252, 169, 16, 0.3);
+$c_alert-transparent-40: rgba(252, 169, 16, 0.4);
+$c_alert-transparent-50: rgba(252, 169, 16, 0.5);
+$c_alert-transparent-60: rgba(252, 169, 16, 0.6);
+$c_alert-transparent-70: rgba(252, 169, 16, 0.7);
+$c_alert-transparent-80: rgba(252, 169, 16, 0.8);
+$c_alert-transparent-90: rgba(252, 169, 16, 0.9);
+// ======== final
+$c_alert: $c_alert-500;
+
+// ============== Surfaces (backgrounds)
+// ======== solid
+$c_surface-main: #fff;
+
+// ============== Text
+// ======== solid
+$c_text-main: #2f2f2f;
+
+// ======================= TRANSITIONS
+$transition: all 0.3s ease-in-out;
