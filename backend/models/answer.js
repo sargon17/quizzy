@@ -10,7 +10,7 @@ const answerSchema = new mongoose.Schema({
     type: String,
     required: [true, "Text is required"],
   },
-  status: {
+  state: {
     type: Boolean,
     default: false,
   },
