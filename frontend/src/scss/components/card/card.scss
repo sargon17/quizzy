@@ -1,0 +1,98 @@
+@import "../variables";
+
+// -----------------------------------------------------------------------------
+
+// ======================= VARIABLES
+// ============ Border Radius
+$card-border-radius: 8px;
+// ============ colors
+$card-bg-color: $c_surface-main;
+// ============ Padding
+$card-padding: 20px;
+
+.card {
+  border-radius: $card-border-radius;
+  overflow: hidden;
+  box-shadow: 0px 10px 10px -3px rgba(87, 87, 87, 0.25);
+  background-color: $card-bg-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: stretch;
+  height: fit-content;
+
+  .card-cover {
+    width: 100%;
+    height: 40%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .card-body {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 0;
+
+    .card-content {
+      padding: $card-padding;
+      height: 100%;
+      overflow: auto;
+
+      .card-title {
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: $c_text-main;
+      }
+    }
+
+    .card-footer {
+      position: absolute;
+      padding: 0 $card-padding 0 $card-padding;
+      bottom: 0;
+      width: 100%;
+      background-color: $c_surface-main;
+    }
+  }
+
+  &-horizontal {
+    width: calc(100% / 2 - 8px * 2);
+    aspect-ratio: 2/1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .card-cover {
+      width: 35%;
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .card-body {
+      width: 65%;
+      height: 100%;
+
+      .card-content {
+        .card-title {
+        }
+      }
+
+      .card-footer {
+        position: absolute;
+        padding: 0 $card-padding 0 $card-padding;
+        bottom: 0;
+        width: 100%;
+        background-color: $c_surface-main;
+      }
+    }
+  }
+}
