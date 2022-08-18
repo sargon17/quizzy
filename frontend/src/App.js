@@ -5,22 +5,39 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import QuizControlPage from "./pages/QuizControlPage";
+import CategoryPage from "./pages/CategoryPage";
+import "./App.css";
 
 function App() {
   return (
     <Router>
       <div className="App">
         <header className="App-header">
-          <nav>
-            <ul>
+          <nav className="flex justify-center">
+            <ul className="flex justify-center">
               <li>
-                <Link to="/">Home</Link>
+                <Link
+                  to="/"
+                  className="p-4 transition-all duration-300 hover:text-blue-500"
+                >
+                  Home
+                </Link>
               </li>
               <li>
-                <Link to="/login">Login</Link>
+                <Link
+                  to="/login"
+                  className="p-4 transition-all duration-300 hover:text-blue-500"
+                >
+                  Login
+                </Link>
               </li>
               <li>
-                <Link to="/register">Register</Link>
+                <Link
+                  to="/register"
+                  className="p-4 transition-all duration-300 hover:text-blue-500"
+                >
+                  Register
+                </Link>
               </li>
             </ul>
           </nav>
@@ -30,6 +47,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard/:userName" element={<Dashboard />} />
+          <Route path="/category/:categoryID" element={<CategoryPage />} />
           <Route
             path="/quiz-controller/:quizID"
             element={<QuizControlPage />}
