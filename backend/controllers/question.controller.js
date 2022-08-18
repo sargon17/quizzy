@@ -7,11 +7,16 @@ const fs = require("fs");
 
 exports.questionsByQuizId = async (req, res) => {
   try {
-    const questions = await Question.find({ quiz: req.params.id }).exec();
+    const q = await Question.find({ quiz: req.params.id }).exec();
 
-    // if (questions.length === 0) {
-    //   res.status(400).json({ message: "No questions found" });
-    // }
+    const questions = q.map((question) => {
+      return {
+        id: question.id,
+        text: question.text,
+        image: question.imagePath,
+        quiz: question.quiz,
+      };
+    });
 
     res.status(200).json({
       message: "Questions retrieved successfully!",
@@ -23,8 +28,8 @@ exports.questionsByQuizId = async (req, res) => {
 };
 
 exports.createQuestion = async (req, res) => {
-  console.log(req.file);
-  console.log(req.body);
+  //   console.log(req.file);
+  //   console.log(req.body);
 
   if (req.file) {
     const image = fs.readFileSync(req.file.path);
@@ -51,5 +56,14 @@ exports.createQuestion = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deleteQuestion = async (req, res) => {
+  try {
+    await Question.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Question deleted successfully!" });
+  } catch (err) {
+    console.log(err);
   }
 };
