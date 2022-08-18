@@ -8,11 +8,11 @@ const quizSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "Creator is required"],
   },
-    subCategory: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "SubCategory",
-      required: [true, "Subcategory is required"],
-    },
+  subCategory: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SubCategory",
+    required: [true, "Subcategory is required"],
+  },
   createdAt: { type: Date, default: Date.now },
   image: {
     type: Buffer,
