@@ -48,11 +48,11 @@ export default function CreateQuiz({ userID }) {
 
   const getQuizzes = () => {
     axios
-      .get(`http://localhost:5000/api/quiz/all`)
+      .get(`http://localhost:5000/api/quiz/all/${userID}`)
       .then((response) => {
         setQuizzes(response.data.quizzes);
 
-        // console.log(response.data.quizzes);
+        console.log(response.data.quizzes);
       })
       .catch((error) => {
         console.log(error);
