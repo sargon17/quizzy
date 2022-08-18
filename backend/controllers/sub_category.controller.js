@@ -28,7 +28,7 @@ exports.subCategoriesByCategory = async (req, res) => {
       return {
         id: subCategory.id,
         title: subCategory.title,
-        imagePath: subCategory.imagePath,
+        image: subCategory.imagePath,
         category: subCategory.category,
       };
     });
