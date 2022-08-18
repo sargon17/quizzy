@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 
 import checkUserAuth from "../utils/checkUserAuth";
 
+import "../scss/style.scss";
+
 export default function Login() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [userData, setUserData] = useState({
@@ -62,44 +64,53 @@ export default function Login() {
 
   return (
     <div>
-      <h1>Login</h1>
-      <div>
-        {error.isOn && <div> {error.message} </div>}
-        <label htmlFor="email">email</label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          value={userData.email}
-          onChange={(e) =>
-            setUserData((prevReg) => {
-              return { ...prevReg, email: e.target.value };
-            })
-          }
-        />
+      <div className="h-screen flex justify-center items-center ">
+        <div>
+          <h1 className="text-center font-bold text-2xl text-blue-500 ">
+            Login
+          </h1>
+          <div className="my-5">
+            {error.isOn && <div> {error.message} </div>}
+            <label htmlFor="email">email</label>
+            <input
+              className="border border-blue-500 rounded-lg p-2 w-full"
+              type="text"
+              name="email"
+              id="email"
+              value={userData.email}
+              onChange={(e) =>
+                setUserData((prevReg) => {
+                  return { ...prevReg, email: e.target.value };
+                })
+              }
+            />
+          </div>
+          <div className="my-5">
+            <label htmlFor="password">password</label>
+            <input
+              className="border border-blue-500 rounded-lg p-2 w-full"
+              type="password"
+              name="password"
+              id="password"
+              value={userData.password}
+              onChange={(e) =>
+                setUserData((prevReg) => {
+                  return { ...prevReg, password: e.target.value };
+                })
+              }
+            />
+          </div>
+          <button
+            className="btn btn-primary btn-round-s btn-full-w"
+            onClick={() => {
+              loginUser();
+            }}
+            disabled={!userData.email || !userData.password}
+          >
+            Login
+          </button>
+        </div>
       </div>
-      <div>
-        <label htmlFor="password">password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={userData.password}
-          onChange={(e) =>
-            setUserData((prevReg) => {
-              return { ...prevReg, password: e.target.value };
-            })
-          }
-        />
-      </div>
-      <button
-        onClick={() => {
-          loginUser();
-        }}
-        disabled={!userData.email || !userData.password}
-      >
-        Login
-      </button>
     </div>
   );
 }
