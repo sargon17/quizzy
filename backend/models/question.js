@@ -36,4 +36,12 @@ questionSchema.virtual("imagePath").get(function () {
   }
 });
 
+questionSchema.pre("remove", async function (next) {
+  try {
+    await Answer.deleteMany({ question: this._id });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = mongoose.model("Question", questionSchema);
