@@ -36,7 +36,22 @@ exports.allQuizzes = async (req, res) => {
 exports.quizById = async (req, res) => {
   console.log(req.params.id);
   try {
-    let q = await Quiz.findById(req.params.id).exec();
+    let q = await Quiz.findById(req.params.id)
+      .populate([
+        {
+          path: "creator",
+          model: "User",
+        },
+        {
+          path: "subCategory",
+          model: "SubCategory",
+          populate: {
+            path: "category",
+            model: "Category",
+          },
+        },
+      ])
+      .exec();
 
     quiz = {
       id: q.id,
@@ -45,6 +60,7 @@ exports.quizById = async (req, res) => {
       subCategory: q.subCategory,
       image: q.imagePath,
       creator: q.creator,
+      questions: q.questions,
     };
     // console.log(quiz);
     res.status(200).json({
@@ -52,9 +68,9 @@ exports.quizById = async (req, res) => {
       quiz: quiz,
     });
   } catch (error) {
-    if (!quiz) {
-      res.status(400).json({ message: "Quiz not found" });
-    }
+    // if (!quiz) {
+    //   res.status(400).json({ message: "Quiz not found" });
+    // }
     res.status(500).json({ message: error.message });
   }
 };
@@ -87,6 +103,42 @@ exports.quizByCreator = async (req, res) => {
     if (!quiz) {
       res.status(400).json({ message: "Quiz not found" });
     }
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.quizBySubCategory = async (req, res) => {
+  try {
+    let q = await Quiz.find({ subCategory: req.params.id })
+      .populate([
+        {
+          path: "subCategory",
+          model: "SubCategory",
+          populate: {
+            path: "category",
+            model: "Category",
+          },
+        },
+        "creator",
+      ])
+      .exec();
+
+    let quizzes = q.map((quiz) => {
+      return {
+        id: quiz.id,
+        creator: quiz.creator,
+        title: quiz.title,
+        description: quiz.description,
+        subCategory: quiz.subCategory,
+        image: quiz.imagePath,
+      };
+    });
+    // console.log(quiz);
+    res.status(200).json({
+      message: "Quiz retrieved successfully!",
+      quizzes: quizzes,
+    });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
