@@ -2,6 +2,7 @@ import React from "react";
 
 import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import checkUserAuth from "../utils/checkUserAuth";
 
@@ -109,6 +110,17 @@ export default function Login() {
           >
             Login
           </button>
+          <div className="my-5 text-center">
+            <p>
+              Don't have an account?{" "}
+              <Link
+                to={"/register"}
+                className="transition-all duration-300 hover:text-blue-500"
+              >
+                Register
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
