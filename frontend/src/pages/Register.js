@@ -2,6 +2,8 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
 
+import { Link } from "react-router-dom";
+
 import checkUserAuth from "../utils/checkUserAuth";
 export default function Register() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -67,84 +69,104 @@ export default function Register() {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      {error.isOn && (
-        <div>
-          {" "}
-          <p> {error.message} </p>{" "}
-        </div>
-      )}
+    <div className="h-screen flex justify-center items-center">
       <div>
-        <div>
-          <label htmlFor="userName">Username</label>
-          <input
-            type="text"
-            name="userName"
-            id="userName"
-            value={registration.userName}
-            onChange={(e) =>
-              setRegistration((prevReg) => {
-                return { ...prevReg, userName: e.target.value };
-              })
-            }
-          />
-        </div>
-        <div>
-          <label htmlFor="email">email</label>
-          <input
-            type="text"
-            name="email"
-            id="email"
-            value={registration.email}
-            onChange={(e) =>
-              setRegistration((prevReg) => {
-                return { ...prevReg, email: e.target.value };
-              })
-            }
-          />
-        </div>
-        <div>
-          <label htmlFor="password">password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={registration.password}
-            onChange={(e) =>
-              setRegistration((prevReg) => {
-                return { ...prevReg, password: e.target.value };
-              })
-            }
-          />
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">confirmPassword</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            value={registration.confirmPassword}
-            onChange={(e) =>
-              setRegistration((prevReg) => {
-                return { ...prevReg, confirmPassword: e.target.value };
-              })
-            }
-          />
-        </div>
-        <button
-          onClick={() => {
-            registerUser();
-          }}
-          disabled={
-            registration.userName === "" ||
-            registration.email === "" ||
-            registration.password === "" ||
-            registration.confirmPassword === ""
-          }
-        >
+        <h1 className="text-center font-bold text-2xl text-blue-500 ">
           Register
-        </button>
+        </h1>
+        {error.isOn && (
+          <div>
+            {" "}
+            <p> {error.message} </p>{" "}
+          </div>
+        )}
+        <div className="my-5">
+          <div className="my-2">
+            <label htmlFor="userName">Username*</label>
+            <input
+              className="border border-blue-500 rounded-lg p-2 w-full"
+              type="text"
+              name="userName"
+              id="userName"
+              value={registration.userName}
+              onChange={(e) =>
+                setRegistration((prevReg) => {
+                  return { ...prevReg, userName: e.target.value };
+                })
+              }
+            />
+          </div>
+          <div className="my-2">
+            <label htmlFor="email">email*</label>
+            <input
+              className="border border-blue-500 rounded-lg p-2 w-full"
+              type="text"
+              name="email"
+              id="email"
+              value={registration.email}
+              onChange={(e) =>
+                setRegistration((prevReg) => {
+                  return { ...prevReg, email: e.target.value };
+                })
+              }
+            />
+          </div>
+          <div className="my-2">
+            <label htmlFor="password">Password*</label>
+            <input
+              className="border border-blue-500 rounded-lg p-2 w-full"
+              type="password"
+              name="password"
+              id="password"
+              value={registration.password}
+              onChange={(e) =>
+                setRegistration((prevReg) => {
+                  return { ...prevReg, password: e.target.value };
+                })
+              }
+            />
+          </div>
+          <div className="my-2">
+            <label htmlFor="confirmPassword">Confirm Password*</label>
+            <input
+              className="border border-blue-500 rounded-lg p-2 w-full"
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              value={registration.confirmPassword}
+              onChange={(e) =>
+                setRegistration((prevReg) => {
+                  return { ...prevReg, confirmPassword: e.target.value };
+                })
+              }
+            />
+          </div>
+          <button
+            className="btn btn-primary btn-round-s btn-full-w"
+            onClick={() => {
+              registerUser();
+            }}
+            disabled={
+              registration.userName === "" ||
+              registration.email === "" ||
+              registration.password === "" ||
+              registration.confirmPassword === ""
+            }
+          >
+            Register
+          </button>
+          <div className="my-5 text-center">
+            <p>
+              Already have an account?{" "}
+              <Link
+                to={"/login"}
+                className="transition-all duration-300 hover:text-blue-500"
+              >
+                Login
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
