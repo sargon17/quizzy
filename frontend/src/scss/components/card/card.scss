@@ -42,11 +42,30 @@ $card-padding: 20px;
       height: 100%;
       overflow: auto;
 
+      .card-overTitle {
+        font-size: 0.8rem;
+        font-weight: 400;
+        margin: 0;
+        color: $c_text-secondary;
+      }
+
       .card-title {
-        font-size: 21px;
+        font-size: 1.6rem;
         font-weight: 700;
-        margin-bottom: 10px;
         color: $c_text-main;
+      }
+      .card-subTitle {
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: $c_text-secondary;
+      }
+      .card-text {
+        font-size: 0.9rem;
+        font-weight: 400;
+        margin-top: 1.7rem;
+        color: $c_text-secondary;
+        line-height: 1.23rem;
+        text-align: justify;
       }
     }
 
