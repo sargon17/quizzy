@@ -4,7 +4,16 @@ import { Link } from "react-router-dom";
 
 import "../scss/style.scss";
 
-export default function GridCards({ Data, linkPath }) {
+export default function GridCards({
+  Data,
+  linkPath,
+  subTitle,
+  title,
+  underTitle,
+  text,
+  image,
+  linkText,
+}) {
   return (
     <div>
       <ul className="flex flex-wrap justify-center gap-2 ">
