@@ -25,7 +25,7 @@ const questionSchema = new mongoose.Schema({
     default: 0,
   },
   createdAt: { type: Date, default: Date.now },
-  answers: [],
+  answers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answer" }],
 });
 
 questionSchema.virtual("imagePath").get(function () {
