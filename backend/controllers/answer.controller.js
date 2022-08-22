@@ -26,6 +26,12 @@ exports.addAnswer = async (req, res) => {
 
   try {
     const savedAnswer = await answer.save();
+
+    const question = await Question.findById(req.params.id);
+    question.answers = [...question.answers, savedAnswer.id];
+    const savedQuestion = await question.save();
+    console.log(savedQuestion.answers);
+
     res.status(200).json({
       message: "Answer created successfully!",
       answer: savedAnswer,
@@ -37,9 +43,48 @@ exports.addAnswer = async (req, res) => {
 
 exports.deleteAnswer = async (req, res) => {
   try {
+    const answer = await Answer.findById(req.params.id);
+
+    const question = await Question.findById(answer.question);
+    question.answers = question.answers.filter((answerId) => {
+      console.log(answerId.toString(), answer.id);
+      return answerId != answer.id;
+    });
+
+    const savedQuestion = await question.save();
+    console.log(savedQuestion.answers);
     await Answer.findByIdAndDelete(req.params.id);
     res.status(200).json({
       message: "Answer deleted successfully!",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.controlAnswers = async (req, res) => {
+  console.log(req.body.answers);
+  let correctAnswers = 0;
+  let correctQuestionId = [];
+  try {
+    for (let i = 0; i < req.body.answers.length; i++) {
+      const question = await Question.findById(req.body.answers[i].question)
+        .populate("answers")
+        .exec();
+      question.answers.forEach((answer) => {
+        if (answer.id == req.body.answers[i].response) {
+          console.log(answer.id, answer.stat);
+          if (answer.state) {
+            correctAnswers++;
+            correctQuestionId.push(answer.question);
+          }
+        }
+      });
+    }
+    res.status(200).json({
+      message: "Answers checked successfully!",
+      correctAnswers: correctAnswers,
+      correctQuestionId: correctQuestionId,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
