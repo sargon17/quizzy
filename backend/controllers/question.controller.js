@@ -7,7 +7,9 @@ const fs = require("fs");
 
 exports.questionsByQuizId = async (req, res) => {
   try {
-    const q = await Question.find({ quiz: req.params.id }).exec();
+    const q = await Question.find({ quiz: req.params.id })
+      .populate("answers")
+      .exec();
 
     const questions = q.map((question) => {
       return {
@@ -15,6 +17,7 @@ exports.questionsByQuizId = async (req, res) => {
         text: question.text,
         image: question.imagePath,
         quiz: question.quiz,
+        answers: question.answers,
       };
     });
 
