@@ -15,20 +15,36 @@ import QuizzesPage from "./pages/QuizzesPage";
 import QuizPage from "./pages/QuizPage";
 import "./App.css";
 
+import DashboardTiles from "./components/DashboardTiles";
+import CreateQuiz from "./components/createQuiz";
+
+import { useSelector, useDispatch } from "react-redux";
+import { setUserData, userDataSelector } from "./features/user/userDataSlice";
+
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userData, setUserData] = useState({ userName: "", email: "" });
+  // const [userData, setUserData] = useState({ userName: "", email: "" });
+
+  const user = useSelector(userDataSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (cookies.user && cookies.accessToken) {
       if (checkUserAuth(cookies)) {
         setIsAuthenticated(true);
-        setUserData({
-          userName: cookies.user.userName,
-          email: cookies.user.email,
-        });
+        // setUserData({
+        //   userName: cookies.user.userName,
+        //   email: cookies.user.email,
+        // });
+        dispatch(
+          setUserData({
+            userName: cookies.user.userName,
+            email: cookies.user.email,
+            _id: cookies.user._id,
+          })
+        );
       }
     }
   }, []);
@@ -74,10 +90,10 @@ function App() {
                 </>
               ) : (
                 <>
-                  <p>Welcome {userData.userName}</p>
+                  <p>Welcome {user.userName}</p>
                   <li>
                     <Link
-                      to={`/dashboard/${userData.userName}`}
+                      to={`/dashboard/${user.userName}`}
                       className="p-4 transition-all duration-300 hover:text-blue-500"
                     >
                       Dashboard
@@ -101,7 +117,22 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard/:userName" element={<Dashboard />} />
+          <Route
+            path="/dashboard/create-quiz"
+            element={
+              <Dashboard>
+                <CreateQuiz />
+              </Dashboard>
+            }
+          />
+          <Route
+            path="/dashboard/:userName"
+            element={
+              <Dashboard>
+                <DashboardTiles />
+              </Dashboard>
+            }
+          />
           <Route path="/category/:categoryID" element={<SubCategoryPage />} />
           <Route
             path="/sub-category/:subCategoryID"
