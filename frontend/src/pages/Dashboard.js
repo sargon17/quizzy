@@ -2,17 +2,20 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import { setUserData, userDataSelector } from "../features/user/userDataSlice";
 
 import checkUserAuth from "../utils/checkUserAuth";
 
-import CreateCategory from "../components/createCategory";
-import CreateSubCategory from "../components/createSubCategory";
-import CreateQuiz from "../components/createQuiz";
+import SideBar from "../components/SideBar";
 
-export default function Dashboard() {
+export default function Dashboard({ children }) {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const { userName } = useParams();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // const user = useSelector(userDataSelector);
+  // const dispatch = useDispatch();
 
   // check if user is authenticated
   useEffect(() => {
@@ -32,6 +35,7 @@ export default function Dashboard() {
       setIsAuthenticated(false);
     } else {
       setIsAuthenticated(true);
+      // dispatch(setUserData(cookies.user));
     }
   };
 
@@ -46,12 +50,11 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div>
-      <h1>Hello {isAuthenticated ? userName : "unknown user"}</h1>{" "}
-      <button onClick={logout}>Logout</button>
-      <CreateQuiz userID={cookies.user._id} />
-      <CreateCategory />
-      <CreateSubCategory />
+    <div className=" h-screen grid grid-cols-5 gap-5">
+      <div className="sidebar">
+        <SideBar logout={logout} />
+      </div>
+      <div className="col-span-4">{children}</div>
     </div>
   );
 }
