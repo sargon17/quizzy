@@ -11,12 +11,12 @@ registerPlugin(FilePondPluginImagePreview, FilePondPluginImageResize);
 
 export default function LoadImage({ setImage }) {
   return (
-    <div style={{ width: "300px" }}>
+    <>
       <FilePond
         onupdatefiles={setImage}
         allowImageResize
         imageResizeTargetWidth={640}
       />
-    </div>
+    </>
   );
 }
