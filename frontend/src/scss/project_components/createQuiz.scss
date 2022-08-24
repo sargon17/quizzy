@@ -1,0 +1,28 @@
+@import "../components/variables.scss";
+
+.create-quiz {
+  margin: 80px 20px 20px 0px;
+  .quiz-data {
+    .quiz-cover {
+    }
+    .quiz-content {
+      .quiz-title--wrapper {
+        .quiz-title {
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: $c_text-main;
+        }
+      }
+      .quiz-description--wrapper {
+        .quiz-description {
+          font-size: 0.9rem;
+          font-weight: 400;
+          margin-top: 1.7rem;
+          color: $c_text-secondary;
+          line-height: 1.23rem;
+          text-align: justify;
+        }
+      }
+    }
+  }
+}
