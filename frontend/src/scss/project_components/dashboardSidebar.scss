@@ -1,0 +1,70 @@
+@import "../components/variables.scss";
+
+// ============================= VARIABLES
+// ======================= Colors
+$ds_c_blue-light: #e5f0ff;
+
+.dashboard-sidebar {
+  background-color: $c_primary;
+  height: 100%;
+  color: $ds_c_blue-light;
+  text-transform: uppercase;
+  * {
+    font-weight: 700;
+    font-size: 21px;
+  }
+  .logo-wrapper {
+    background: $c_secondary;
+    padding: 16px;
+    img {
+      width: 25%;
+      min-width: 65px;
+      max-width: 100px;
+      margin: 0 auto;
+    }
+  }
+  .dashboard-sidebar__main {
+    .welcome-message {
+      font-size: 26px;
+      text-align: center;
+      margin: 23px auto;
+    }
+  }
+  .nav {
+    margin: 60px 0;
+    ul {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      .nav-item {
+        padding: 10px;
+        width: 90%;
+        text-align: right;
+        border-radius: $border_radius--md;
+        border-top-right-radius: 0%;
+        border-bottom-right-radius: 0;
+        transition: $transition;
+        .link {
+          width: 100%;
+        }
+        &:hover {
+          background-color: adjust-color(
+            $color: $ds_c_blue-light,
+            $alpha: -0.9
+          );
+        }
+      }
+      .nav-item--active {
+        background-color: $ds_c_blue-light;
+        color: $c_primary;
+        box-shadow: 0px 10px 10px -3px rgba(87, 87, 87, 0.25);
+
+        &:hover {
+          background-color: $ds_c_blue-light;
+          color: $c_primary;
+        }
+      }
+    }
+  }
+}
