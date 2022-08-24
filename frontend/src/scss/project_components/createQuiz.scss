@@ -11,6 +11,7 @@
           font-size: 1.6rem;
           font-weight: 700;
           color: $c_text-main;
+          cursor: pointer;
         }
       }
       .quiz-description--wrapper {
@@ -22,7 +23,29 @@
           line-height: 1.23rem;
           text-align: justify;
         }
+        .input--description {
+          border: none;
+          outline: none;
+          resize: none;
+          padding: 4px;
+          margin: 10px 0;
+          font-size: 0.9rem;
+          font-weight: 400;
+          color: $c_text-secondary;
+          line-height: 1.23rem;
+          text-align: justify;
+        }
       }
     }
   }
+}
+
+.input {
+  width: 80%;
+  border-radius: 8px;
+  border: 1px solid $c_primary;
+  padding: 0px 10px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: $c_text-main;
 }
