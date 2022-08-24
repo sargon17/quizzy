@@ -96,8 +96,47 @@ export default function CreateQuiz({ userID }) {
   }, [data.categoryID]);
 
   return (
-    <div>
-      <h3>Create Quiz</h3>
+    <div className="create-quiz">
+      <div className="quiz-data grid grid-cols-4 grid-rows-1 gap-5 h-96">
+        <div className="quiz-cover col-span-1 col-start-1 ">
+          <LoadImage setImage={setImage} />
+        </div>
+        <div className="quiz-content col-span-3 col-start-2 flex flex-col h-full">
+          <div className="quiz-title--wrapper">
+            {/* <input
+              type="text"
+              id="title"
+              onChange={(e) =>
+                setData((prev) => {
+                  return { ...prev, title: e.target.value };
+                })
+              }
+            /> */}
+            <h3 className="quiz-title">Quiz #1237</h3>
+          </div>
+          <div className="quiz-category">+ Add Category</div>
+          <div className="quiz-description--wrapper grow">
+            <p className="quiz-description">
+              This is a description of this New Quiz, to change it simply dubble
+              click on it, in the same way you can change the quiz name
+            </p>
+          </div>
+          <div className="quiz-content__footer flex justify-between w-full">
+            <div>Add Special Rules</div>
+            <div>
+              <button className="btn btn-primary btn-primary--shadow btn-sm btn-round-s m-0">
+                SAVE
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================================== */}
+      {/* ========================================================================== */}
+      {/* ========================================================================== */}
+      {/* ========================================================================== */}
+      {/* <h3>Create Quiz</h3>
       <label htmlFor="title">Title</label>
       <input
         type="text"
@@ -204,7 +243,7 @@ export default function CreateQuiz({ userID }) {
             })}
         </tbody>
       </table>
-      <button onClick={getQuizzes}>Update</button>
+      <button onClick={getQuizzes}>Update</button> */}
     </div>
   );
 }
