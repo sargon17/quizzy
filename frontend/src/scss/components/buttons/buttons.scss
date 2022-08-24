@@ -19,9 +19,9 @@ $btn_font_size--lg: 18px;
 // ============ Font weight
 $btn_font_weight: 700;
 // ============ Border radius
-$btn_border_radius--sm: 4px;
-$btn_border_radius--md: 10px;
-$btn_border_radius--lg: 16px;
+$btn_border_radius--sm: $border_radius--sm;
+$btn_border_radius--md: $border_radius--md;
+$btn_border_radius--lg: $border_radius--lg;
 // ============ Border width
 $btn_border_width: 1px;
 // ============ colors
