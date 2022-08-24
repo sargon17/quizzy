@@ -6,8 +6,13 @@ import LogoBlue from "../resources/images/Logo_blue.svg";
 import { useSelector } from "react-redux";
 import { userDataSelector } from "../features/user/userDataSlice";
 
+import { useLocation } from "react-router-dom";
+
 export default function SideBar({ logout }) {
   const user = useSelector(userDataSelector);
+
+  const location = useLocation();
+  const path = location.pathname;
 
   return (
     <div className="dashboard-sidebar">
@@ -20,12 +25,24 @@ export default function SideBar({ logout }) {
         <h2 className="welcome-message"> Welcome {user.userName}</h2>
         <nav className="nav">
           <ul>
-            <li className="nav-item nav-item--active">
+            <li
+              className={
+                path === `/dashboard/${user.userName}`
+                  ? "nav-item nav-item--active"
+                  : "nav-item"
+              }
+            >
               <Link to={`/dashboard/${user.userName}`} className="link">
                 Dashboard
               </Link>
             </li>
-            <li className="nav-item">
+            <li
+              className={
+                path === "/dashboard/create-quiz"
+                  ? "nav-item nav-item--active"
+                  : "nav-item"
+              }
+            >
               <Link to={"/dashboard/create-quiz"} className="link">
                 Create new quiz
               </Link>
