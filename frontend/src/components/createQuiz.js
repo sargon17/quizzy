@@ -5,10 +5,16 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 import LoadImage from "./loadImage";
+import AddCategory from "./AddCategory";
+import { useSelector } from "react-redux";
+import { userDataSelector } from "../features/user/userDataSlice";
+
+import useOnclickOutside from "react-cool-onclickoutside";
 
 export default function CreateQuiz({ userID }) {
+  const user = useSelector(userDataSelector);
   const [data, setData] = useState({
-    title: "",
+    title: "Quiz by " + user.userName,
     categoryID: "",
     subCategoryID: "",
     creatorID: userID,
@@ -19,6 +25,18 @@ export default function CreateQuiz({ userID }) {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
+
+  // state of title input
+  const [isTitleInput, setIsTitleInput] = useState(false);
+  const titleRef = useOnclickOutside(() => {
+    setIsTitleInput(false);
+  });
+
+  // state of description input
+  const [isDescriptionInput, setIsDescriptionInput] = useState(false);
+  const descriptionRef = useOnclickOutside(() => {
+    setIsDescriptionInput(false);
+  });
 
   const createQuiz = () => {
     console.log(`User ${userID} is creating a quiz`);
@@ -96,30 +114,77 @@ export default function CreateQuiz({ userID }) {
   }, [data.categoryID]);
 
   return (
-    <div className="create-quiz">
+    <div className="create-quiz relative">
       <div className="quiz-data grid grid-cols-4 grid-rows-1 gap-5 h-96">
         <div className="quiz-cover col-span-1 col-start-1 ">
           <LoadImage setImage={setImage} />
         </div>
         <div className="quiz-content col-span-3 col-start-2 flex flex-col h-full">
           <div className="quiz-title--wrapper">
-            {/* <input
-              type="text"
-              id="title"
-              onChange={(e) =>
-                setData((prev) => {
-                  return { ...prev, title: e.target.value };
-                })
-              }
-            /> */}
-            <h3 className="quiz-title">Quiz #1237</h3>
+            {isTitleInput ? (
+              <input
+                className="input"
+                type="text"
+                id="title"
+                onChange={(e) =>
+                  setData((prev) => {
+                    return { ...prev, title: e.target.value };
+                  })
+                }
+                onKeyUpCapture={(e) => {
+                  if (e.key === "Enter") {
+                    setIsTitleInput(false);
+                  }
+                }}
+                value={data.title}
+                ref={titleRef}
+              />
+            ) : (
+              <>
+                <h3
+                  className="quiz-title"
+                  onDoubleClick={() => setIsTitleInput(true)}
+                >
+                  {data.title ? data.title : `Quiz by ${user.userName}`}
+                </h3>
+              </>
+            )}
           </div>
           <div className="quiz-category">+ Add Category</div>
+          <div className=" absolute  ">
+            <AddCategory setData={setData} />
+          </div>
           <div className="quiz-description--wrapper grow">
-            <p className="quiz-description">
-              This is a description of this New Quiz, to change it simply dubble
-              click on it, in the same way you can change the quiz name
-            </p>
+            {isDescriptionInput ? (
+              <textarea
+                rows="4"
+                className="input input--description"
+                type="text"
+                id="description"
+                onChange={(e) =>
+                  setData((prev) => {
+                    return { ...prev, description: e.target.value };
+                  })
+                }
+                onKeyUpCapture={(e) => {
+                  if (e.key === "Enter") {
+                    setIsDescriptionInput(false);
+                  }
+                }}
+                ref={descriptionRef}
+              >
+                {data.description}
+              </textarea>
+            ) : (
+              <p
+                className="quiz-description"
+                onDoubleClick={() => setIsDescriptionInput(true)}
+              >
+                {data.description
+                  ? data.description
+                  : "This is a description of this New Quiz, to change it simply double click on it, in the same way you can change the quiz name"}
+              </p>
+            )}
           </div>
           <div className="quiz-content__footer flex justify-between w-full">
             <div>Add Special Rules</div>
