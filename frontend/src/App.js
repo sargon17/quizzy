@@ -15,8 +15,11 @@ import QuizzesPage from "./pages/QuizzesPage";
 import QuizPage from "./pages/QuizPage";
 import "./App.css";
 
+import Header from "./components/Header";
+
 import DashboardTiles from "./components/DashboardTiles";
-import CreateQuiz from "./components/createQuiz";
+import ManageQuiz from "./components/manageQuiz";
+import QuizzesList from "./components/QuizzesList";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, userDataSelector } from "./features/user/userDataSlice";
@@ -58,73 +61,91 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <nav className="flex justify-center">
-            <ul className="flex justify-center">
-              <li>
-                <Link
-                  to="/"
-                  className="p-4 transition-all duration-300 hover:text-blue-500"
-                >
-                  Home
-                </Link>
-              </li>
-              {!isAuthenticated ? (
-                <>
-                  <li>
-                    <Link
-                      to="/login"
-                      className="p-4 transition-all duration-300 hover:text-blue-500"
-                    >
-                      Login
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/register"
-                      className="p-4 transition-all duration-300 hover:text-blue-500"
-                    >
-                      Register
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <p>Welcome {user.userName}</p>
-                  <li>
-                    <Link
-                      to={`/dashboard/${user.userName}`}
-                      className="p-4 transition-all duration-300 hover:text-blue-500"
-                    >
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="m-0 btn btn-secondary btn-xs btn-round-s "
-                      onClick={logout}
-                    >
-                      Logout
-                    </a>
-                  </li>
-                </>
-              )}
-            </ul>
-          </nav>
-        </header>
         <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* Front Office */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Header logout={logout} isAuthenticated={isAuthenticated} />
+                <Homepage />
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Header logout={logout} isAuthenticated={isAuthenticated} />
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                <Header logout={logout} isAuthenticated={isAuthenticated} />
+                <Register />
+              </>
+            }
+          />
+          <Route
+            path="/category/:categoryID"
+            element={
+              <>
+                <Header logout={logout} isAuthenticated={isAuthenticated} />
+                <SubCategoryPage />
+              </>
+            }
+          />
+          <Route
+            path="/sub-category/:subCategoryID"
+            element={
+              <>
+                <Header logout={logout} isAuthenticated={isAuthenticated} />
+                <QuizzesPage />
+              </>
+            }
+          />
+          <Route
+            path="/quiz/:quizID"
+            element={
+              <>
+                <Header logout={logout} isAuthenticated={isAuthenticated} />
+                <QuizPage />
+              </>
+            }
+          />
+          {/* Front Office */}
+          {/* ========================================================================================== */}
+          {/* Back Office */}
+          {/* Quizzes */}
           <Route
             path="/dashboard/create-quiz"
             element={
               <Dashboard>
-                <CreateQuiz />
+                <ManageQuiz isNewQuiz={true} />
               </Dashboard>
             }
           />
+          <Route
+            path="/dashboard/quizzes"
+            element={
+              <Dashboard>
+                <QuizzesList />
+              </Dashboard>
+            }
+          />
+          <Route
+            path="/dashboard/edit-quiz/:quizID"
+            element={
+              <Dashboard>
+                <ManageQuiz isNewQuiz={false} />
+              </Dashboard>
+            }
+          />
+          {/* Quizzes */}
           <Route
             path="/dashboard/:userName"
             element={
@@ -133,16 +154,11 @@ function App() {
               </Dashboard>
             }
           />
-          <Route path="/category/:categoryID" element={<SubCategoryPage />} />
-          <Route
-            path="/sub-category/:subCategoryID"
-            element={<QuizzesPage />}
-          />
-          <Route path="/quiz/:quizID" element={<QuizPage />} />
-          <Route
+          {/* <Route
             path="/quiz-controller/:quizID"
             element={<QuizControlPage />}
-          />
+          /> */}
+          {/* Back Office */}
         </Routes>
       </div>
     </Router>
