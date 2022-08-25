@@ -82,7 +82,10 @@ exports.quizByCreator = async (req, res) => {
     let user = await User.findById(req.params.id).exec();
     console.log(user.id, req.params.id, user.id === req.params.id);
 
-    let q = await Quiz.find({ creator: req.params.id }).exec();
+    let q = await Quiz.find({ creator: req.params.id })
+      .populate("subCategory")
+      .sort({ createdAt: -1 })
+      .exec();
 
     let quizzes = q.map((quiz) => {
       return {
@@ -92,6 +95,7 @@ exports.quizByCreator = async (req, res) => {
         description: quiz.description,
         subCategory: quiz.subCategory,
         image: quiz.imagePath,
+        createdAt: quiz.createdAt.toISOString().split("T")[0],
       };
     });
     // console.log(quiz);
@@ -100,9 +104,6 @@ exports.quizByCreator = async (req, res) => {
       quizzes: quizzes,
     });
   } catch (error) {
-    if (!quiz) {
-      res.status(400).json({ message: "Quiz not found" });
-    }
     res.status(500).json({ message: error.message });
   }
 };
