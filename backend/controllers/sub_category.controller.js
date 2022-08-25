@@ -42,6 +42,33 @@ exports.subCategoriesByCategory = async (req, res) => {
   }
 };
 
+exports.subCategoriesByCategoryAndTitle = async (req, res) => {
+  let query = SubCategory.find({ category: req.params.categoryID });
+
+  if (req.params.title != null && req.params.title != "") {
+    query = query.regex("title", new RegExp(req.params.title, "i"));
+  }
+  try {
+    const s = await query.exec();
+
+    subCategories = s.map((subCategory) => {
+      return {
+        id: subCategory.id,
+        title: subCategory.title,
+        image: subCategory.imagePath,
+        category: subCategory.category,
+      };
+    });
+    res.status(200).json({
+      message: "Sub Categories retrieved successfully!",
+      subCategories: subCategories,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.createSubCategory = async (req, res) => {
   const image = fs.readFileSync(req.file.path);
   const encode_image = image.toString("base64");
