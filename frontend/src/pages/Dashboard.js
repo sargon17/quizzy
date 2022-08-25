@@ -18,13 +18,17 @@ export default function Dashboard({ children }) {
   // const dispatch = useDispatch();
 
   // check if user is authenticated
-  useEffect(() => {
+  const checkAuth = async () => {
     if (cookies.user && cookies.accessToken) {
-      if (!checkUserAuth(cookies)) {
-        window.location.href = "/dashboard/" + cookies.user.userName;
+      if (await !checkUserAuth(cookies)) {
+        window.location.href = "/login";
       }
     }
+  };
+  useEffect(() => {
+    checkAuth();
   }, []);
+
   const checkUser = async () => {
     if (
       !cookies.user ||

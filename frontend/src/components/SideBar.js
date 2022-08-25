@@ -22,7 +22,7 @@ export default function SideBar({ logout }) {
         </Link>
       </div>
       <div className="dashboard-sidebar__main">
-        <h2 className="welcome-message"> Welcome {user.userName}</h2>
+        <h2 className="welcome-message"> Welcome, {user.userName}</h2>
         <nav className="nav">
           <ul>
             <li
@@ -47,9 +47,15 @@ export default function SideBar({ logout }) {
                 Create new quiz
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to={"/dashboard"} className="link">
-                manage new quizzes
+            <li
+              className={
+                path === "/dashboard/quizzes"
+                  ? "nav-item nav-item--active"
+                  : "nav-item"
+              }
+            >
+              <Link to={"/dashboard/quizzes"} className="link">
+                manage quizzes
               </Link>
             </li>
             <li className="nav-item">
