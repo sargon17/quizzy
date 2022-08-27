@@ -36,15 +36,15 @@ export default function ManageQuiz({ isNewQuiz }) {
         console.log(response.data);
         setData((prevState) => ({
           ...prevState,
-          id: response.data.quiz.id,
-          title: response.data.quiz.title,
-          description: response.data.quiz.description,
-          subCategory: response.data.quiz.subCategory,
-          category: response.data.quiz.subCategory.category,
-          creatorID: response.data.quiz.creator._id,
+          id: response.data.id,
+          title: response.data.title,
+          description: response.data.description,
+          subCategory: response.data.subCategory,
+          category: response.data.subCategory.category,
+          creatorID: response.data.creator._id,
         }));
-        setImage(response.data.quiz.image);
-        console.log(response.data.quiz);
+        setImage(response.data.imagePath);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
