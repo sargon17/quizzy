@@ -14,8 +14,8 @@ export default function QuizzesPage() {
     axios
       .get(`http://localhost:5000/api/quiz/sub-category/${subCategoryID}`)
       .then((response) => {
-        setQuizzes(response.data.quizzes);
-        console.log(response.data.quizzes);
+        setQuizzes(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -40,7 +40,7 @@ export default function QuizzesPage() {
             text={quiz.description}
             id={quiz.id}
             key={quiz.key}
-            image={quiz.image}
+            image={quiz.imagePath}
             linkText="Try Yourself"
           />
         ))}
