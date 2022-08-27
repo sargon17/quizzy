@@ -36,7 +36,7 @@ exports.allQuizzes = async (req, res) => {
 exports.quizById = async (req, res) => {
   console.log(req.params.id);
   try {
-    let q = await Quiz.findById(req.params.id)
+    let quiz = await Quiz.findById(req.params.id)
       .populate([
         {
           path: "creator",
@@ -52,65 +52,38 @@ exports.quizById = async (req, res) => {
         },
       ])
       .exec();
-
-    quiz = {
-      id: q.id,
-      title: q.title,
-      description: q.description,
-      subCategory: q.subCategory,
-      image: q.imagePath,
-      creator: q.creator,
-      questions: q.questions,
-    };
-    // console.log(quiz);
-    res.status(200).json({
-      message: "Quiz retrieved successfully!",
-      quiz: quiz,
-    });
+    if (!quiz) {
+      res.status(400).json({ message: "Quiz not found" });
+    }
+    res.status(200).json(quiz);
   } catch (error) {
-    // if (!quiz) {
-    //   res.status(400).json({ message: "Quiz not found" });
-    // }
     res.status(500).json({ message: error.message });
   }
 };
 
 exports.quizByCreator = async (req, res) => {
-  console.log(typeof req.params.id);
+  console.time("quizByCreator");
 
   try {
-    let user = await User.findById(req.params.id).exec();
-    console.log(user.id, req.params.id, user.id === req.params.id);
-
     let q = await Quiz.find({ creator: req.params.id })
-      .populate("subCategory")
       .sort({ createdAt: -1 })
+      .populate("subCategory")
       .exec();
 
-    let quizzes = q.map((quiz) => {
-      return {
-        id: quiz.id,
-        creator: quiz.creator,
-        title: quiz.title,
-        description: quiz.description,
-        subCategory: quiz.subCategory,
-        image: quiz.imagePath,
-        createdAt: quiz.createdAt.toISOString().split("T")[0],
-      };
-    });
-    // console.log(quiz);
     res.status(200).json({
       message: "Quiz retrieved successfully!",
-      quizzes: quizzes,
+      quizzes: q,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
+  console.timeEnd("quizByCreator");
 };
 
 exports.quizBySubCategory = async (req, res) => {
   try {
-    let q = await Quiz.find({ subCategory: req.params.id })
+    let quizzes = await Quiz.find({ subCategory: req.params.id })
       .populate([
         {
           path: "subCategory",
@@ -123,22 +96,7 @@ exports.quizBySubCategory = async (req, res) => {
         "creator",
       ])
       .exec();
-
-    let quizzes = q.map((quiz) => {
-      return {
-        id: quiz.id,
-        creator: quiz.creator,
-        title: quiz.title,
-        description: quiz.description,
-        subCategory: quiz.subCategory,
-        image: quiz.imagePath,
-      };
-    });
-    // console.log(quiz);
-    res.status(200).json({
-      message: "Quiz retrieved successfully!",
-      quizzes: quizzes,
-    });
+    res.status(200).json(quizzes);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
