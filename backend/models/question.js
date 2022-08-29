@@ -1,32 +1,37 @@
 const mongoose = require("mongoose");
 
-const questionSchema = new mongoose.Schema({
-  quiz: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Quiz",
-    required: [true, "Quiz is required"],
+const questionSchema = new mongoose.Schema(
+  {
+    quiz: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Quiz",
+      required: [true, "Quiz is required"],
+    },
+    text: {
+      type: String,
+      required: [true, "Text is required"],
+    },
+    image: {
+      type: Buffer,
+    },
+    imageType: {
+      type: String,
+    },
+    totalAnswers: {
+      type: Number,
+      default: 0,
+    },
+    correctAnswers: {
+      type: Number,
+      default: 0,
+    },
+    createdAt: { type: Date, default: Date.now },
+    answers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answer" }],
   },
-  text: {
-    type: String,
-    required: [true, "Text is required"],
-  },
-  image: {
-    type: Buffer,
-  },
-  imageType: {
-    type: String,
-  },
-  totalAnswers: {
-    type: Number,
-    default: 0,
-  },
-  correctAnswers: {
-    type: Number,
-    default: 0,
-  },
-  createdAt: { type: Date, default: Date.now },
-  answers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answer" }],
-});
+  {
+    toJSON: { virtuals: true },
+  }
+);
 
 questionSchema.virtual("imagePath").get(function () {
   if (this.image != null && this.imageType != null) {
