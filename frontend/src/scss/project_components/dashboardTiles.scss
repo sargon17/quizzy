@@ -23,7 +23,59 @@
         color: $c_text-light-blue;
         text-transform: uppercase;
       }
+      &--lastQuiz {
+        padding: 10px;
+        z-index: 1;
+        display: block;
+        background: #ffffff;
+        .tile__name {
+          font-size: 2.7rem;
+          line-height: 1;
+          font-weight: 700;
+          color: $c_text-light-gray;
+          position: absolute;
+          z-index: -1;
+          bottom: -8px;
+          left: -5px;
+          pointer-events: none;
+        }
+        .tile__title {
+          color: $c_text-main;
+          font-size: 1.5rem;
+          line-height: 1.2;
+          font-weight: 700;
+          text-transform: capitalize;
+        }
+        .tile__subtitle {
+          font-size: 0.8rem;
+          line-height: 1.2;
+          font-weight: 400;
+          color: $c_text-tertiary;
+        }
+        .tile__text {
+          margin-top: 20px;
+          font-size: 0.9rem;
+          font-weight: 400;
+          color: $c_text-secondary;
+        }
+        .tile__link {
+          font-size: 0.8rem;
+          font-weight: 400;
+          color: $c_text-tertiary;
+          transition: $transition;
+          padding: 5px 10px 5px 0px;
+
+          &:hover {
+            color: $c_primary;
+            padding: 5px 10px;
+          }
+        }
+      }
+      .tile__text-accent {
+        color: $c_secondary-500;
+      }
     }
+
     .tile__body {
       overflow: auto;
       .tile__table {
@@ -70,6 +122,35 @@
             .table__row--long {
               width: 30%;
             }
+          }
+        }
+      }
+      &--lastQuiz {
+        width: 40%;
+        height: 100%;
+        .tile__cover {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          .tile__cover__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+          .coverOverlay {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0%;
+            left: 0%;
+            background: linear-gradient(
+              90deg,
+              #ffffff 0%,
+              rgba(255, 255, 255, 0) 100%
+            );
           }
         }
       }
