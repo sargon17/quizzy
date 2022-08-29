@@ -42,4 +42,8 @@ quizSchema.virtual("imagePath").get(function () {
   }
 });
 
+quizSchema.virtual("from").get(function () {
+  return this.createdAt.toLocaleDateString();
+});
+
 module.exports = mongoose.model("Quiz", quizSchema);
