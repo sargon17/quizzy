@@ -8,6 +8,8 @@ import { userDataSelector } from "../features/user/userDataSlice";
 
 import { useLocation } from "react-router-dom";
 
+import Logout from "./utils/Logout";
+
 export default function SideBar({ logout }) {
   const user = useSelector(userDataSelector);
 
@@ -65,6 +67,9 @@ export default function SideBar({ logout }) {
             </li>
           </ul>
         </nav>
+      </div>
+      <div className="dashboard-sidebar__footer">
+        <Logout />
       </div>
     </div>
   );

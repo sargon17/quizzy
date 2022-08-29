@@ -9,10 +9,7 @@ $ds_c_blue-light: #e5f0ff;
   height: 100%;
   color: $ds_c_blue-light;
   text-transform: uppercase;
-  * {
-    font-weight: 700;
-    font-size: 21px;
-  }
+  position: relative;
   .logo-wrapper {
     background: $c_secondary;
     padding: 16px;
@@ -22,8 +19,16 @@ $ds_c_blue-light: #e5f0ff;
       max-width: 100px;
       margin: 0 auto;
     }
+    * {
+      font-weight: 700;
+      font-size: 21px;
+    }
   }
   .dashboard-sidebar__main {
+    * {
+      font-weight: 700;
+      font-size: 21px;
+    }
     .welcome-message {
       font-size: 26px;
       text-align: center;
@@ -66,5 +71,11 @@ $ds_c_blue-light: #e5f0ff;
         }
       }
     }
+  }
+  .dashboard-sidebar__footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
   }
 }
