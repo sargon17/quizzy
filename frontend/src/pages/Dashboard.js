@@ -58,7 +58,7 @@ export default function Dashboard({ children }) {
       <div className="sidebar">
         <SideBar logout={logout} />
       </div>
-      <div className="col-span-4">{children}</div>
+      <div className="col-span-4 max-h-screen overflow-scroll">{children}</div>
     </div>
   );
 }
