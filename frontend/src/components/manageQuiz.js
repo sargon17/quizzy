@@ -346,7 +346,7 @@ export default function ManageQuiz({ isNewQuiz }) {
                         </td>
                         <td>answers go here</td>
                         <td>
-                          <div className="flex justify-center items-center">
+                          <div className="flex justify-start items-center">
                             <Link
                               to={``}
                               className="btn btn-primary btn-sm btn-round-s btn-icon m-0 mr-2"
