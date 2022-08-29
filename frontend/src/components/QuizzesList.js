@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userDataSelector } from "../features/user/userDataSlice";
 
+// utils
+import textShortener from "../utils/textShortener";
+
 export default function QuizzesList() {
   // user data
   const user = useSelector(userDataSelector);
@@ -30,15 +33,6 @@ export default function QuizzesList() {
   useEffect(() => {
     getQuizzes();
   }, []);
-
-  //   utils
-  const textShortener = (text, length) => {
-    if (text.length > length) {
-      return text.substring(0, length) + "...";
-    } else {
-      return text;
-    }
-  };
 
   const deleteQuiz = (id) => {
     setQuizzes(quizzes.filter((quiz) => quiz._id !== id));
