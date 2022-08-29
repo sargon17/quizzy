@@ -128,7 +128,7 @@ export default function QuizPage() {
                       {questions[activeQuestion].image &&
                         questions[activeQuestion].imageType && (
                           <img
-                            src={questions[activeQuestion].image}
+                            src={questions[activeQuestion].imagePath}
                             width="300"
                           />
                         )}
