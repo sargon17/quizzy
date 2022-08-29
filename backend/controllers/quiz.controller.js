@@ -90,6 +90,28 @@ exports.quizByCreator = async (req, res) => {
   }
 };
 
+exports.lastQuizByCreator = async (req, res) => {
+  try {
+    let quiz = await Quiz.findOne({ creator: req.params.id })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "subCategory",
+        model: "SubCategory",
+        select: "title",
+        populate: {
+          path: "category",
+          model: "Category",
+          select: "title",
+        },
+      })
+      .exec();
+
+    res.status(200).json(quiz);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.quizBySubCategory = async (req, res) => {
   console.time("quizBySubCategory");
   try {

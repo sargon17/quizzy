@@ -10,10 +10,12 @@ const {
   quizBySubCategory,
   createQuiz,
   deleteQuiz,
+  lastQuizByCreator,
 } = require("../../controllers/quiz.controller");
 
 router.get("/all", allQuizzes); // get all quizzes
 router.get("/all/:id", quizByCreator); // get quiz by id")
+router.get("/last/:id", lastQuizByCreator); // get last quiz by id")
 router.get("/sub-category/:id", quizBySubCategory); // get quiz by id")
 router.post("/create", upload.single("image"), createQuiz); // create quiz
 router.get("/:id", quizById); // get quiz by id
