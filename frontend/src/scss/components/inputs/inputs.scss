@@ -1,0 +1,23 @@
+@import "../variables.scss";
+
+.input {
+  .input__primary {
+  }
+}
+.textarea {
+  border: 1px solid $c_text-secondary;
+  border-radius: 8px;
+  outline: none;
+  padding: 4px;
+  margin: 10px 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: $c_text-secondary;
+  line-height: 1.23rem;
+  text-align: justify;
+  width: 100%;
+
+  &--primary {
+    border-color: $c_primary;
+  }
+}
