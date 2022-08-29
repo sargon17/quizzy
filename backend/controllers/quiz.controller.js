@@ -62,35 +62,47 @@ exports.quizById = async (req, res) => {
 };
 
 exports.quizByCreator = async (req, res) => {
-  console.time("quizByCreator");
-
   try {
     let q = await Quiz.find({ creator: req.params.id })
       .sort({ createdAt: -1 })
-      .populate("subCategory")
+      .populate({
+        path: "subCategory",
+        model: "SubCategory",
+        select: "title",
+      })
       .exec();
 
-    res.status(200).json({
-      message: "Quiz retrieved successfully!",
-      quizzes: q,
+    quizzes = q.map((quiz) => {
+      return {
+        id: quiz.id,
+        title: quiz.title,
+        description: quiz.description,
+        subCategory: quiz.subCategory,
+        imagePath: quiz.imagePath,
+        from: quiz.from,
+      };
     });
+
+    res.status(200).json(quizzes);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
   }
-  console.timeEnd("quizByCreator");
 };
 
 exports.quizBySubCategory = async (req, res) => {
+  console.time("quizBySubCategory");
   try {
     let quizzes = await Quiz.find({ subCategory: req.params.id })
       .populate([
         {
           path: "subCategory",
           model: "SubCategory",
+          select: "title",
           populate: {
             path: "category",
             model: "Category",
+            select: "title",
           },
         },
         "creator",
@@ -100,6 +112,7 @@ exports.quizBySubCategory = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+  console.timeEnd("quizBySubCategory");
 };
 
 exports.createQuiz = async (req, res) => {
