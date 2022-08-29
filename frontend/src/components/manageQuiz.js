@@ -27,6 +27,9 @@ export default function ManageQuiz({ isNewQuiz }) {
   const [isAddQuestion, setIsAddQuestion] = useState(false);
   const [question, setQuestion] = useState({});
 
+  const [isAddImage, setIsAddImage] = useState(false);
+  const [questionImage, setQuestionImage] = useState("");
+
   useEffect(() => {
     console.log();
   }, [image]);
@@ -127,8 +130,8 @@ export default function ManageQuiz({ isNewQuiz }) {
   const uploadQuestion = () => {
     const formData = new FormData();
     formData.append("text", question.text);
-    if (question.image) {
-      formData.append("image", question.image[0].file);
+    if (questionImage) {
+      formData.append("image", questionImage[0].file);
     }
     formData.append("quizID", data.id);
 
@@ -147,7 +150,21 @@ export default function ManageQuiz({ isNewQuiz }) {
       })
       .then(() => {
         setIsAddQuestion(false);
+        setQuestion({});
+        setQuestionImage("");
         getQuiz();
+      });
+  };
+
+  const deleteQuestion = (questionID) => {
+    axios
+      .delete(`http://localhost:5000/api/qa/${questionID}`)
+      .then((response) => {
+        console.log(response.data);
+        getQuiz();
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -295,9 +312,37 @@ export default function ManageQuiz({ isNewQuiz }) {
                     return (
                       <tr key={question.id}>
                         <td>{index + 1}</td>
-                        <td className="table__row--long">{question.text}</td>
+                        <td className="table__row--long table__description">
+                          {question.text}
+                        </td>
                         <td>
-                          {question.image && question.imageType ? "Yes" : "No"}
+                          {question.image && question.imageType ? (
+                            <div className="badge badge--icon badge-success badge-circle">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-check-lg"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                              </svg>
+                            </div>
+                          ) : (
+                            <div className="badge badge--icon badge-neutral badge-circle">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-x-lg"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                              </svg>
+                            </div>
+                          )}
                         </td>
                         <td>answers go here</td>
                         <td>
@@ -318,7 +363,7 @@ export default function ManageQuiz({ isNewQuiz }) {
                               </svg>
                             </Link>
                             <button
-                              // onClick={() => deleteQuiz(quiz.id)}
+                              onClick={() => deleteQuestion(question.id)}
                               className="btn btn-error btn-sm btn-round-s btn-icon m-0"
                             >
                               <svg
@@ -353,19 +398,27 @@ export default function ManageQuiz({ isNewQuiz }) {
                         ></textarea>
                       </td>
                       <td>
-                        <button className="btn btn-primary btn-primary-outlined btn-primary--shadow btn-icon btn-sm btn-round-s m-0">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            class="bi bi-file-earmark-arrow-up"
-                            viewBox="0 0 16 16"
+                        {!isAddImage && (
+                          <button
+                            className="btn btn-primary btn-primary-outlined btn-primary--shadow btn-icon btn-sm btn-round-s m-0"
+                            onClick={() => setIsAddImage(true)}
                           >
-                            <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z" />
-                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
-                          </svg>
-                        </button>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              class="bi bi-file-earmark-arrow-up"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z" />
+                              <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                            </svg>
+                          </button>
+                        )}
+                        {isAddImage && (
+                          <LoadImage setImage={setQuestionImage} />
+                        )}
                       </td>
                       <td>0</td>
                       <td>
