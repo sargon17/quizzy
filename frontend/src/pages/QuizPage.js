@@ -32,8 +32,8 @@ export default function QuizPage() {
     axios
       .get(`http://localhost:5000/api/quiz/${quizID}`)
       .then((response) => {
-        setQuiz(response.data.quiz);
-        console.log(response.data.quiz);
+        setQuiz(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -44,9 +44,9 @@ export default function QuizPage() {
     axios
       .get(`http://localhost:5000/api/qa/${quizID}`)
       .then((response) => {
-        setQuestions(response.data.questions);
-        console.log(response.data.questions);
-        response.data.questions.forEach((question) => {
+        setQuestions(response.data);
+        console.log(response.data);
+        response.data.forEach((question) => {
           setAnswers((prevState) => [
             ...prevState,
             { question: question.id, response: "" },
@@ -99,7 +99,7 @@ export default function QuizPage() {
                     {cookies.user &&
                       cookies.user.userName === quiz.creator.userName && (
                         <Link
-                          to={`/quiz-controller/${quiz.id}`}
+                          to={`/dashboard/edit-quiz/${quiz.id}`}
                           className="btn btn-primary-outlined btn-xs btn-round-s"
                         >
                           Edit
@@ -125,7 +125,13 @@ export default function QuizPage() {
                 <div className="question-card__body">
                   <div className="question-card__question-wrapper">
                     <div className="question-card__question__image-wrapper">
-                      <img src={questions[activeQuestion].image} width="300" />
+                      {questions[activeQuestion].image &&
+                        questions[activeQuestion].imageType && (
+                          <img
+                            src={questions[activeQuestion].image}
+                            width="300"
+                          />
+                        )}
                     </div>
                     <h2>{questions[activeQuestion].text}</h2>
                   </div>
