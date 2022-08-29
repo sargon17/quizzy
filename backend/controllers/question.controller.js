@@ -11,20 +11,7 @@ exports.questionsByQuizId = async (req, res) => {
       .populate("answers")
       .exec();
 
-    const questions = q.map((question) => {
-      return {
-        id: question.id,
-        text: question.text,
-        image: question.imagePath,
-        quiz: question.quiz,
-        answers: question.answers,
-      };
-    });
-
-    res.status(200).json({
-      message: "Questions retrieved successfully!",
-      questions: questions,
-    });
+    res.status(200).json(q);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -47,8 +34,8 @@ exports.createQuestion = async (req, res) => {
   const question = new Question({
     quiz: req.params.id,
     text: req.body.text,
-    image: req.body.image,
-    imageType: req.body.imageType,
+    image: req.body.image || "",
+    imageType: req.body.imageType || "",
   });
 
   try {
