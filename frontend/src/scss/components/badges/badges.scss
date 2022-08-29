@@ -1,0 +1,37 @@
+@import "../variables.scss";
+
+.badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: gray;
+  color: white;
+
+  &-success {
+    background-color: $c_surface-green;
+  }
+  &-warning {
+    background-color: $c_error;
+  }
+  &-neutral {
+    background-color: $c_surface-gray;
+  }
+
+  &-round-s {
+    border-radius: $border-radius--sm;
+  }
+  &-round-m {
+    border-radius: $border-radius--md;
+  }
+  &-round-l {
+    border-radius: $border-radius--lg;
+  }
+  &-circle {
+    border-radius: 120px;
+  }
+}
+.badge--icon {
+  height: 20px;
+  width: 20px;
+  font-size: 1.5rem;
+}
