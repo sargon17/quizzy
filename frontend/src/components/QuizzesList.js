@@ -19,7 +19,7 @@ export default function QuizzesList() {
     axios
       .get(`http://localhost:5000/api/quiz/all/${user._id}`)
       .then((response) => {
-        setQuizzes(response.data.quizzes);
+        setQuizzes(response.data);
         setIsLoaded(true);
       })
       .catch((error) => {
@@ -87,7 +87,7 @@ export default function QuizzesList() {
                     {textShortener(quiz.description, 100)}
                   </td>
                   <td className="table__date">{quiz.subCategory.title}</td>
-                  <td className="table__date">{quiz.createdAt}</td>
+                  <td className="table__date">{quiz.from}</td>
                   <td>
                     <div className="flex justify-center items-center">
                       <Link
