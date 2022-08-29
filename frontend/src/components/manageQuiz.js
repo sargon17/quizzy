@@ -13,6 +13,7 @@ import useOnclickOutside from "react-cool-onclickoutside";
 
 export default function ManageQuiz({ isNewQuiz }) {
   const user = useSelector(userDataSelector);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState({
     title: "Quiz by " + user.userName,
     category: {},
@@ -21,6 +22,10 @@ export default function ManageQuiz({ isNewQuiz }) {
     description: "",
   });
   const [image, setImage] = useState("");
+
+  const [questions, setQuestions] = useState([]);
+  const [isAddQuestion, setIsAddQuestion] = useState(false);
+  const [question, setQuestion] = useState({});
 
   useEffect(() => {
     console.log();
@@ -44,7 +49,9 @@ export default function ManageQuiz({ isNewQuiz }) {
           creatorID: response.data.creator._id,
         }));
         setImage(response.data.imagePath);
+        setIsLoaded(true);
         console.log(response.data);
+        getQuestions();
       })
       .catch((error) => {
         console.log(error);
@@ -105,64 +112,59 @@ export default function ManageQuiz({ isNewQuiz }) {
       });
   };
 
-  // const getQuizzes = () => {
-  //   axios
-  //     .get(`http://localhost:5000/api/quiz/all/${userID}`)
-  //     .then((response) => {
-  //       setQuizzes(response.data.quizzes);
+  const getQuestions = () => {
+    axios
+      .get(`http://localhost:5000/api/qa/${quizID}`)
+      .then((response) => {
+        console.log(response.data);
+        setQuestions(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  //       console.log(response.data.quizzes);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  const uploadQuestion = () => {
+    const formData = new FormData();
+    formData.append("text", question.text);
+    if (question.image) {
+      formData.append("image", question.image[0].file);
+    }
+    formData.append("quizID", data.id);
 
-  // const getCategories = () => {
-  //   axios
-  //     .get("http://localhost:5000/api/category")
-  //     .then((response) => {
-  //       setData({ ...data, categoryID: response.data.categories[0].id });
-  //       console.log(data);
-  //       setCategories(response.data.categories);
-  //       console.log(response.data.categories);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-  // const getSubCategories = () => {
-  //   axios
-  //     .get(`http://localhost:5000/api/sub_category/${data.categoryID}`)
-  //     .then((response) => {
-  //       setSubCategories(response.data.subCategories);
-  //       setData({ ...data, subCategoryID: response.data.subCategories[0].id });
-  //       // console.log(response.data.subCategories);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getCategories();
-  //   getSubCategories();
-  //   getQuizzes();
-  // }, []);
-
-  // useEffect(() => {
-  //   getSubCategories();
-  // }, [data.categoryID]);
+    axios
+      .post(`http://localhost:5000/api/qa/${data.id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        transformRequest: (formData) => formData,
+      })
+      .then((response) => {
+        console.log(`Question created successfully -- ${response.data}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .then(() => {
+        setIsAddQuestion(false);
+        getQuiz();
+      });
+  };
 
   return (
     <div className="create-quiz">
-      <div className="quiz-data grid grid-cols-4 grid-rows-1 gap-5 h-96">
+      <div className="quiz-data grid grid-cols-4 grid-rows-1 gap-5">
         <div className="quiz-cover col-span-1 col-start-1 ">
           {isNewQuiz ? (
             <LoadImage setImage={setImage} />
           ) : (
-            <div className="image-upload">
-              <img src={image} alt="quiz cover" />
+            <div className="image-upload relative">
+              {!isLoaded && (
+                <div className="loading">
+                  <div className="pulsate"></div>
+                </div>
+              )}
+              {isLoaded && <img src={image} alt="quiz cover" />}
             </div>
           )}
         </div>
@@ -261,119 +263,131 @@ export default function ManageQuiz({ isNewQuiz }) {
           </div>
         </div>
       </div>
-
-      {/* ========================================================================== */}
-      {/* ========================================================================== */}
-      {/* ========================================================================== */}
-      {/* ========================================================================== */}
-      {/* <h3>Create Quiz</h3>
-      <label htmlFor="title">Title</label>
-      <input
-        type="text"
-        id="title"
-        onChange={(e) =>
-          setData((prev) => {
-            return { ...prev, title: e.target.value };
-          })
-        }
-      />
-      <br />
-      <label htmlFor="categoryID">Category</label>
-      <select
-        id="CategoryID"
-        onChange={(e) =>
-          setData((prev) => {
-            return { ...prev, categoryID: e.target.value };
-          })
-        }
-      >
-        {categories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.title}
-          </option>
-        ))}
-      </select>
-      <br />
-      <label htmlFor="subCategoryID">SubCategory</label>
-      <select
-        id="subCategoryID"
-        onChange={(e) =>
-          setData((prev) => {
-            return { ...prev, subCategoryID: e.target.value };
-          })
-        }
-        disabled={subCategories.length === 0}
-      >
-        {subCategories.map((subCategory) => {
-          return (
-            <option key={subCategory.id} value={subCategory.id}>
-              {subCategory.title || "No SubCategory"}
-            </option>
-          );
-        })}
-      </select>
-      <br />
-      <label htmlFor="description">Description</label>
-      <textarea
-        id="description"
-        onChange={(e) =>
-          setData((prev) => {
-            return { ...prev, description: e.target.value };
-          })
-        }
-      ></textarea>
-      <br />
-      <LoadImage setImage={setImage} />
-      <br />
-      <button
-        onClick={createQuiz}
-        disabled={
-          data.title === "" ||
-          data.categoryID === "" ||
-          data.subCategoryID === "" ||
-          data.description === "" ||
-          image === ""
-        }
-      >
-        Create
-      </button>
-      <table style={{ width: "100%" }}>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>SubCategory</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {quizzes &&
-            quizzes.map((quiz) => {
-              return (
-                <tr key={quiz.id}>
-                  <td>{quiz.title ? quiz.title : " "}</td>
-                  <td>
-                    {quiz.subCategory.title ? quiz.subCategory.title : " "}
-                  </td>
-                  <td>{quiz.description ? quiz.description : " "}</td>
-                  <td>
-                    <img
-                      src={quiz.image ? quiz.image : " "}
-                      alt="quiz"
-                      width="200"
-                    />
-                  </td>
-                  <td>
-                    <Link to={`/quiz-controller/${quiz.id}`}> Edit </Link>
-                    <button>Delete</button>
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
-      <button onClick={getQuizzes}>Update</button> */}
+      <div className="w-full h-full">
+        <div className="dashboard-tiles">
+          <div className="tile w-full">
+            <div className="tile__header">
+              <h3 className="tile__title">Questions</h3>
+              <div className="tile__actions">
+                <button
+                  className="btn btn-primary btn-sm btn-round-s m-0"
+                  onClick={() => {
+                    setIsAddQuestion((prev) => !prev);
+                  }}
+                >
+                  + ADD QUESTION
+                </button>
+              </div>
+            </div>
+            <div className="tile__body">
+              <table className="tile__table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Question</th>
+                    <th>Image</th>
+                    <th>Answers</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="h-full">
+                  {questions.map((question, index) => {
+                    return (
+                      <tr key={question.id}>
+                        <td>{index + 1}</td>
+                        <td className="table__row--long">{question.text}</td>
+                        <td>
+                          {question.image && question.imageType ? "Yes" : "No"}
+                        </td>
+                        <td>answers go here</td>
+                        <td>
+                          <div className="flex justify-center items-center">
+                            <Link
+                              to={``}
+                              className="btn btn-primary btn-sm btn-round-s btn-icon m-0 mr-2"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-pencil-fill"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                              </svg>
+                            </Link>
+                            <button
+                              // onClick={() => deleteQuiz(quiz.id)}
+                              className="btn btn-error btn-sm btn-round-s btn-icon m-0"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-trash3-fill"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                              </svg>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {isAddQuestion && (
+                    <tr>
+                      <td className="table__description">New Question</td>
+                      <td>
+                        <textarea
+                          className="textarea textarea--primary"
+                          type="text"
+                          id="question"
+                          onChange={(e) =>
+                            setQuestion((prev) => {
+                              return { ...prev, text: e.target.value };
+                            })
+                          }
+                        ></textarea>
+                      </td>
+                      <td>
+                        <button className="btn btn-primary btn-primary-outlined btn-primary--shadow btn-icon btn-sm btn-round-s m-0">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-file-earmark-arrow-up"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z" />
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                          </svg>
+                        </button>
+                      </td>
+                      <td>0</td>
+                      <td>
+                        <button
+                          className="btn btn-primary btn-sm btn-round-s m-0"
+                          onClick={() => {
+                            setQuestions([...questions, question]);
+                            setIsAddQuestion(false);
+                            uploadQuestion();
+                          }}
+                        >
+                          ADD
+                        </button>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
