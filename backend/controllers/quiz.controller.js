@@ -169,6 +169,45 @@ exports.createQuiz = async (req, res) => {
   }
 };
 
+exports.updateQuiz = async (req, res) => {
+  let finalImg;
+  if (req.file) {
+    const image = fs.readFileSync(req.file.path);
+    const encode_image = image.toString("base64");
+    finalImg = {
+      contentType: req.file.mimetype,
+      image: new Buffer.from(encode_image, "base64"),
+    };
+  }
+  let quiz = await Quiz.findById(req.params.id).exec();
+  if (!quiz) {
+    res.status(400).json({ message: "Quiz not found" });
+  }
+  if (req.body.title !== undefined) {
+    quiz.title = req.body.title;
+  }
+  if (req.body.description && req.body.description !== "") {
+    quiz.description = req.body.description;
+  }
+  if (req.body.subCategoryID && req.body.subCategoryID !== quiz.subCategory) {
+    quiz.subCategory = req.body.subCategoryID;
+  }
+  if (req.file) {
+    quiz.image = finalImg.image;
+    quiz.imageType = finalImg.contentType;
+  }
+  try {
+    await quiz.save();
+    res.status(200).json({
+      message: "Quiz updated successfully!",
+      quiz: quiz,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // delete quiz
 exports.deleteQuiz = async (req, res) => {
   let quiz;

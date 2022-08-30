@@ -11,6 +11,7 @@ const {
   createQuiz,
   deleteQuiz,
   lastQuizByCreator,
+  updateQuiz,
 } = require("../../controllers/quiz.controller");
 
 router.get("/all", allQuizzes); // get all quizzes
@@ -19,6 +20,7 @@ router.get("/last/:id", lastQuizByCreator); // get last quiz by id")
 router.get("/sub-category/:id", quizBySubCategory); // get quiz by id")
 router.post("/create", upload.single("image"), createQuiz); // create quiz
 router.get("/:id", quizById); // get quiz by id
+router.put("/:id", verifyToken, upload.single("image"), updateQuiz); // delete quiz by id
 router.delete("/:id/:userID", deleteQuiz); // delete quiz
 
 // router.get("/secret", verifyToken, (req, res) => {
