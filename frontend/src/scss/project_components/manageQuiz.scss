@@ -82,7 +82,8 @@
 }
 
 // ======================= Add Category
-.add-category--wrapper {
+
+.overlay-card {
   position: absolute;
   top: 0;
   left: 0;
@@ -93,7 +94,7 @@
   justify-content: center;
   align-items: center;
 
-  .add-category {
+  .card {
     width: 60%;
     min-width: 700px;
     min-height: 500px;
@@ -109,7 +110,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+  }
+}
+.add-category--wrapper {
+  .add-category {
     .add-category__title--wrapper {
       width: 100%;
       display: flex;
@@ -243,4 +247,6 @@
       align-items: center;
     }
   }
+}
+.answers-controller--wrapper {
 }

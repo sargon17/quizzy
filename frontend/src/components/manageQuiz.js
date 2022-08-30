@@ -3,13 +3,13 @@ import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 
 import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userDataSelector } from "../features/user/userDataSlice";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 import LoadImage from "./loadImage";
 import AddCategory from "./AddCategory";
-import { useSelector } from "react-redux";
-import { userDataSelector } from "../features/user/userDataSlice";
-
-import useOnclickOutside from "react-cool-onclickoutside";
+import AnswersController from "./AnswersController";
 
 export default function ManageQuiz({ isNewQuiz }) {
   const user = useSelector(userDataSelector);
@@ -38,6 +38,8 @@ export default function ManageQuiz({ isNewQuiz }) {
 
   const [isAddImage, setIsAddImage] = useState(false);
   const [questionImage, setQuestionImage] = useState("");
+
+  const [isAnswersController, setIsAnswersController] = useState(true);
 
   const { quizID } = useParams();
   console.log(quizID);
@@ -307,7 +309,7 @@ export default function ManageQuiz({ isNewQuiz }) {
             )}
           </div>
           {isAddCategory && (
-            <div className="add-category--wrapper">
+            <div className="add-category--wrapper overlay-card">
               <AddCategory
                 setData={setCategoryAndSubCategory}
                 open={setIsAddCategory}
@@ -532,6 +534,11 @@ export default function ManageQuiz({ isNewQuiz }) {
           </div>
         </div>
       </div>
+      {isAnswersController && (
+        <div className="answers-controller--wrapper overlay-card">
+          <AnswersController />
+        </div>
+      )}
     </div>
   );
 }

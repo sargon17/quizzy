@@ -81,7 +81,7 @@ export default function AddCategory({ setData, open, category, subCategory }) {
   }, [selectedCategory]);
 
   return (
-    <div className="add-category" ref={cardRef}>
+    <div className="add-category card" ref={cardRef}>
       <div className="add-category__title--wrapper">
         <h2 className="add-category__title">Add Category</h2>
         <h3 className="add-category__selected">
