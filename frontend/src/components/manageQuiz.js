@@ -69,7 +69,25 @@ export default function ManageQuiz({ isNewQuiz }) {
     if (!isNewQuiz && quizID) {
       getQuiz();
     }
+    setData((prevState) => ({
+      ...prevState,
+      title: "Quiz by " + user.userName,
+      category: {},
+      subCategory: {},
+      creatorID: user._id,
+      description: "",
+    }));
   }, []);
+  useEffect(() => {
+    setData((prevState) => ({
+      ...prevState,
+      title: "Quiz by " + user.userName,
+      category: {},
+      subCategory: {},
+      creatorID: user._id,
+      description: "",
+    }));
+  }, [isNewQuiz]);
 
   // // state of title input
   const [isTitleInput, setIsTitleInput] = useState(false);
@@ -115,6 +133,9 @@ export default function ManageQuiz({ isNewQuiz }) {
       })
       .then((response) => {
         console.log(`Quiz created successfully -- ${response.data}`);
+
+        window.location.href = "/dashboard/edit-quiz/" + response.data._id;
+        // /dashboard/edit-quiz/630dcbc4fa0ca2daefac1a36
       })
       .catch((error) => {
         console.log(error);
@@ -342,7 +363,7 @@ export default function ManageQuiz({ isNewQuiz }) {
                     }
                   }
                 }}
-                disabled={!isNewQuiz && isDataUpdated ? false : true}
+                disabled={isDataUpdated ? false : true}
               >
                 SAVE
               </button>
