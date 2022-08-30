@@ -29,12 +29,10 @@ export default function SideBar({ logout }) {
           <ul>
             <li
               className={
-                path === `/dashboard/${user.userName}`
-                  ? "nav-item nav-item--active"
-                  : "nav-item"
+                path === `/dashboard` ? "nav-item nav-item--active" : "nav-item"
               }
             >
-              <Link to={`/dashboard/${user.userName}`} className="link">
+              <Link to={`/dashboard`} className="link">
                 Dashboard
               </Link>
             </li>
