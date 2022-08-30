@@ -147,7 +147,7 @@ function App() {
           />
           {/* Quizzes */}
           <Route
-            path="/dashboard/:userName"
+            path="/dashboard"
             element={
               <Dashboard>
                 <DashboardTiles />

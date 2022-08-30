@@ -53,7 +53,7 @@ export default function Login() {
         }
         if (result.user) {
           setCookie("user", result.user, { path: "/" });
-          window.location.href = "/dashboard/" + result.user.userName;
+          window.location.href = "/dashboard";
         }
         // console.log(cookies);
       })

@@ -42,7 +42,7 @@ export default function Header({ isAuthenticated, logout }) {
               <p>Welcome {user.userName}</p>
               <li>
                 <Link
-                  to={`/dashboard/${user.userName}`}
+                  to={`/dashboard`}
                   className="p-4 transition-all duration-300 hover:text-blue-500"
                 >
                   Dashboard

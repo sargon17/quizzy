@@ -19,7 +19,7 @@ export default function Register() {
   useEffect(() => {
     if (cookies.user && cookies.accessToken) {
       if (checkUserAuth(cookies)) {
-        window.location.href = "/dashboard/" + cookies.user.userName;
+        window.location.href = "/dashboard";
       }
     }
   }, []);
