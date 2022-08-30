@@ -16,17 +16,22 @@ registerPlugin(
   FilePondPluginFileValidateSize
 );
 
-export default function LoadImage({ setImage }) {
+export default function LoadImage({ setImage, onChange }) {
   return (
     <>
       <FilePond
-        onupdatefiles={setImage}
+        onupdatefiles={(fileItems) => {
+          if (onChange) {
+            onChange();
+          }
+          setImage(fileItems);
+        }}
         allowImageResize={true}
         imageResizeTargetWidth={640}
         imageResizeTargetHeight={640}
         imageResizeMode="contain"
         imageResizeQuality={0.2}
-        maxFileSize="1MB"
+        maxFileSize="2MB"
         maxFiles={1}
         labelFileSizeNotAllowed="File size too large"
         labelFileTypeNotAllowed="File type not allowed"
