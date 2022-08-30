@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 
 import { Link, useParams } from "react-router-dom";
@@ -21,7 +21,16 @@ export default function ManageQuiz({ isNewQuiz }) {
     creatorID: user._id,
     description: "",
   });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const [isDataUpdated, setIsDataUpdated] = useState(false);
+
   const [image, setImage] = useState("");
+
+  const [isImageOnLoad, setIsImageOnLoad] = useState(false);
 
   const [questions, setQuestions] = useState([]);
   const [isAddQuestion, setIsAddQuestion] = useState(false);
@@ -29,10 +38,6 @@ export default function ManageQuiz({ isNewQuiz }) {
 
   const [isAddImage, setIsAddImage] = useState(false);
   const [questionImage, setQuestionImage] = useState("");
-
-  useEffect(() => {
-    console.log();
-  }, [image]);
 
   const { quizID } = useParams();
   console.log(quizID);
@@ -53,8 +58,8 @@ export default function ManageQuiz({ isNewQuiz }) {
         }));
         setImage(response.data.imagePath);
         setIsLoaded(true);
-        console.log(response.data);
         getQuestions();
+        setIsImageOnLoad(false);
       })
       .catch((error) => {
         console.log(error);
@@ -83,6 +88,7 @@ export default function ManageQuiz({ isNewQuiz }) {
 
   const setCategoryAndSubCategory = (category, subCategory) => {
     setData({ ...data, category, subCategory });
+    setIsDataUpdated(true);
   };
 
   // const [categories, setCategories] = useState([]);
@@ -109,6 +115,37 @@ export default function ManageQuiz({ isNewQuiz }) {
       })
       .then((response) => {
         console.log(`Quiz created successfully -- ${response.data}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const updateQuiz = () => {
+    console.log(`User ${user._id} is updating a quiz`);
+    console.log(user);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("categoryID", data.category.id || data.category._id);
+    formData.append(
+      "subCategoryID",
+      data.subCategory.id || data.subCategory._id
+    );
+    formData.append("creatorID", data.creatorID);
+    formData.append("description", data.description);
+    formData.append("image", image[0].file);
+
+    axios
+      .put(`http://localhost:5000/api/quiz/${data.id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        transformRequest: (formData) => formData,
+      })
+      .then((response) => {
+        // console.log(`Quiz updated successfully -- ${response.data}`);
+        setIsDataUpdated(false);
+        getQuiz();
       })
       .catch((error) => {
         console.log(error);
@@ -173,7 +210,12 @@ export default function ManageQuiz({ isNewQuiz }) {
       <div className="quiz-data grid grid-cols-4 grid-rows-1 gap-5">
         <div className="quiz-cover col-span-1 col-start-1 ">
           {isNewQuiz ? (
-            <LoadImage setImage={setImage} />
+            <LoadImage
+              setImage={setImage}
+              onChange={() => {
+                setIsDataUpdated(true);
+              }}
+            />
           ) : (
             <div className="image-upload relative">
               {!isLoaded && (
@@ -181,7 +223,23 @@ export default function ManageQuiz({ isNewQuiz }) {
                   <div className="pulsate"></div>
                 </div>
               )}
-              {isLoaded && <img src={image} alt="quiz cover" />}
+              {isLoaded && !isImageOnLoad && (
+                <img
+                  src={image}
+                  alt="quiz cover"
+                  onDoubleClick={() => {
+                    setIsImageOnLoad(true);
+                  }}
+                />
+              )}
+              {isLoaded && isImageOnLoad && (
+                <LoadImage
+                  setImage={setImage}
+                  onChange={() => {
+                    setIsDataUpdated(true);
+                  }}
+                />
+              )}
             </div>
           )}
         </div>
@@ -192,11 +250,13 @@ export default function ManageQuiz({ isNewQuiz }) {
                 className="input"
                 type="text"
                 id="title"
-                onChange={(e) =>
+                onChange={(e) => {
                   setData((prev) => {
                     return { ...prev, title: e.target.value };
-                  })
-                }
+                  });
+                  setIsDataUpdated(true);
+                  // console.log(data.title, oldData.title);
+                }}
                 onKeyUpCapture={(e) => {
                   if (e.key === "Enter") {
                     setIsTitleInput(false);
@@ -242,11 +302,12 @@ export default function ManageQuiz({ isNewQuiz }) {
                 className="input input--description"
                 type="text"
                 id="description"
-                onChange={(e) =>
+                onChange={(e) => {
                   setData((prev) => {
                     return { ...prev, description: e.target.value };
-                  })
-                }
+                  });
+                  setIsDataUpdated(true);
+                }}
                 onKeyUpCapture={(e) => {
                   if (e.key === "Enter") {
                     setIsDescriptionInput(false);
@@ -272,7 +333,16 @@ export default function ManageQuiz({ isNewQuiz }) {
             <div>
               <button
                 className="btn btn-primary btn-primary--shadow btn-sm btn-round-s m-0"
-                onClick={createQuiz}
+                onClick={() => {
+                  if (isDataUpdated) {
+                    if (isNewQuiz) {
+                      createQuiz();
+                    } else {
+                      updateQuiz();
+                    }
+                  }
+                }}
+                disabled={!isNewQuiz && isDataUpdated ? false : true}
               >
                 SAVE
               </button>
