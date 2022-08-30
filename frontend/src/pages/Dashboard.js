@@ -12,7 +12,6 @@ import SideBar from "../components/SideBar";
 export default function Dashboard({ children }) {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const { userName } = useParams();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // const user = useSelector(userDataSelector);
   // const dispatch = useDispatch();
@@ -29,29 +28,11 @@ export default function Dashboard({ children }) {
     checkAuth();
   }, []);
 
-  const checkUser = async () => {
-    if (
-      !cookies.user ||
-      cookies.user.userName !== userName ||
-      !cookies.accessToken
-    ) {
-      window.location.href = "/login";
-      setIsAuthenticated(false);
-    } else {
-      setIsAuthenticated(true);
-      // dispatch(setUserData(cookies.user));
-    }
-  };
-
   const logout = () => {
     removeCookie("user", { path: "/" });
     removeCookie("accessToken", { path: "/" });
     window.location.href = "/login";
   };
-
-  useEffect(() => {
-    checkUser();
-  }, []);
 
   return (
     <div className=" h-screen grid grid-cols-5 gap-5">
