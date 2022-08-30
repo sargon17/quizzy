@@ -156,10 +156,7 @@ exports.createQuiz = async (req, res) => {
     creator = await User.findOne({ _id: req.body.creatorID }).exec();
     quiz.creator = creator.id;
     await quiz.save();
-    res.status(200).json({
-      message: "Quiz created successfully!",
-      quiz: quiz,
-    });
+    res.status(200).json(quiz);
   } catch (err) {
     if (!creator) {
       res.status(400).json({ message: "Invalid userID" });
