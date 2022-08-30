@@ -21,22 +21,24 @@ exports.createQuestion = async (req, res) => {
   //   console.log(req.file);
   //   console.log(req.body);
 
+  let finalImg;
   if (req.file) {
     const image = fs.readFileSync(req.file.path);
     const encode_image = image.toString("base64");
-    const finalImg = {
+    finalImg = {
       contentType: req.file.mimetype,
       image: new Buffer.from(encode_image, "base64"),
     };
-    req.body.image = finalImg.image;
-    req.body.imageType = finalImg.contentType;
   }
-  const question = new Question({
+  let question = new Question({
     quiz: req.params.id,
     text: req.body.text,
-    image: req.body.image || "",
-    imageType: req.body.imageType || "",
   });
+
+  if (req.file) {
+    question.image = finalImg.image;
+    question.imageType = finalImg.contentType;
+  }
 
   try {
     const savedQuestion = await question.save();
