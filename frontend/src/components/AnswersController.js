@@ -38,6 +38,12 @@ export default function AnswersController({ questionData }) {
   };
 
   const uploadNewAnswer = () => {
+    if (newAnswer.text.length === 0) return;
+    if (
+      newAnswer.state === true &&
+      answers.find((answer) => answer.state === true)
+    )
+      return;
     axios
       .post("http://localhost:5000/api/qa/answers", newAnswer)
       .then((response) => {
@@ -178,15 +184,6 @@ export default function AnswersController({ questionData }) {
                   </textarea>
                 </td>
                 <td>
-                  {/* <input
-                    className="input"
-                    type="checkbox"
-                    id="answer-correct"
-                    onChange={(e) => {
-                      setNewAnswer({ ...newAnswer, state: e.target.checked });
-                    }}
-                    checked={newAnswer.state}
-                  /> */}
                   <Toggle
                     state={false}
                     setState={(v) => {
@@ -207,7 +204,7 @@ export default function AnswersController({ questionData }) {
             )}
           </tbody>
         </table>
-        {!isNewAnswer && (
+        {!isNewAnswer && answers.length < 8 ? (
           <p
             className="add-answer"
             onClick={() => {
@@ -216,6 +213,8 @@ export default function AnswersController({ questionData }) {
           >
             Add Answer
           </p>
+        ) : (
+          <p className="add-answer--max">Max number of answers reached</p>
         )}
       </div>
     </div>
