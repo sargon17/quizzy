@@ -5,6 +5,8 @@ import axios from "axios";
 import useOnclickOutside from "react-cool-onclickoutside";
 
 import Toggle from "./utils/Toggle";
+
+import { Store } from "react-notifications-component";
 export default function AnswersController({ questionData }) {
   const { data: quiz, question } = questionData;
 
@@ -69,6 +71,30 @@ export default function AnswersController({ questionData }) {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleNewAnswerCorrect = () => {
+    if (answers.find((answer) => answer.state === true)) {
+      Store.addNotification({
+        title: "Error",
+        message: "You can only have one correct answer",
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true,
+        },
+      });
+      newAnswer.state = false;
+      return;
+    }
+    setNewAnswer((prevState) => ({
+      ...prevState,
+      state: !prevState.state,
+    }));
   };
 
   return (
@@ -185,16 +211,19 @@ export default function AnswersController({ questionData }) {
                 </td>
                 <td>
                   <Toggle
-                    state={false}
-                    setState={(v) => {
-                      setNewAnswer({ ...newAnswer, state: v });
-                    }}
+                    state={newAnswer.state}
+                    setState={handleNewAnswerCorrect}
+
+                    // {(v) => {
+                    //   setNewAnswer({ ...newAnswer, state: v });
+                    // }}
                   />
                 </td>
                 <td className="w-20 ">
                   <button
                     className="btn btn-primary btn-primary--shadow btn-sm btn-round-s m-0"
                     onClick={uploadNewAnswer}
+                    disabled={newAnswer.text.length === 0}
                   >
                     {" "}
                     SAVE
@@ -204,7 +233,7 @@ export default function AnswersController({ questionData }) {
             )}
           </tbody>
         </table>
-        {!isNewAnswer && answers.length < 8 ? (
+        {!isNewAnswer && answers.length < 8 && (
           <p
             className="add-answer"
             onClick={() => {
@@ -213,7 +242,8 @@ export default function AnswersController({ questionData }) {
           >
             Add Answer
           </p>
-        ) : (
+        )}
+        {!isNewAnswer && answers.length >= 8 && (
           <p className="add-answer--max">Max number of answers reached</p>
         )}
       </div>
