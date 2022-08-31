@@ -9,6 +9,8 @@ import useOnclickOutside from "react-cool-onclickoutside";
 
 import LoadImage from "./loadImage";
 import AddCategory from "./AddCategory";
+
+import OverlayCard from "./utils/OverlayCard";
 import AnswersController from "./AnswersController";
 
 export default function ManageQuiz({ isNewQuiz }) {
@@ -39,7 +41,10 @@ export default function ManageQuiz({ isNewQuiz }) {
   const [isAddImage, setIsAddImage] = useState(false);
   const [questionImage, setQuestionImage] = useState("");
 
-  const [isAnswersController, setIsAnswersController] = useState(true);
+  // Answers controller
+  const [isAnswersController, setIsAnswersController] = useState(false);
+  // Save the Question that Answers Controller is for
+  const [questionAnswers, setQuestionAnswers] = useState({});
 
   const { quizID } = useParams();
   console.log(quizID);
@@ -390,14 +395,14 @@ export default function ManageQuiz({ isNewQuiz }) {
               </div>
             </div>
             <div className="tile__body">
-              <table className="tile__table">
+              <table className="table">
                 <thead>
                   <tr>
                     <th>Order</th>
                     <th>Question</th>
                     <th>Image</th>
                     <th>Answers</th>
-                    <th>Actions</th>
+                    <th className="w-32">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="h-full">
@@ -437,37 +442,52 @@ export default function ManageQuiz({ isNewQuiz }) {
                             </div>
                           )}
                         </td>
-                        <td>answers go here</td>
+                        <td>
+                          <p
+                            className="add-answer-btn"
+                            onClick={() => {
+                              setIsAnswersController(true);
+                              setQuestionAnswers({ data, question });
+                            }}
+                          >
+                            {question.answers.length}{" "}
+                            <span>add new answers</span>
+                          </p>
+                        </td>
                         <td>
                           <div className="flex justify-start items-center">
                             <Link
                               to={``}
-                              className="btn btn-primary btn-sm btn-round-s btn-icon m-0 mr-2"
+                              className="btn btn-primary  btn-round-s btn-icon btn-icon--sm m-0 mr-2"
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
                                 height="16"
                                 fill="currentColor"
-                                class="bi bi-pencil-fill"
+                                class="bi bi-pencil-square"
                                 viewBox="0 0 16 16"
                               >
-                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                                />
                               </svg>
                             </Link>
                             <button
                               onClick={() => deleteQuestion(question.id)}
-                              className="btn btn-error btn-sm btn-round-s btn-icon m-0"
+                              className="btn btn-error btn-round-s btn-icon btn-icon--sm m-0"
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
                                 height="16"
                                 fill="currentColor"
-                                class="bi bi-trash3-fill"
+                                class="bi bi-trash2"
                                 viewBox="0 0 16 16"
                               >
-                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                <path d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z" />
                               </svg>
                             </button>
                           </div>
@@ -535,9 +555,9 @@ export default function ManageQuiz({ isNewQuiz }) {
         </div>
       </div>
       {isAnswersController && (
-        <div className="answers-controller--wrapper overlay-card">
-          <AnswersController />
-        </div>
+        <OverlayCard open={setIsAnswersController}>
+          <AnswersController questionData={questionAnswers} />
+        </OverlayCard>
       )}
     </div>
   );
