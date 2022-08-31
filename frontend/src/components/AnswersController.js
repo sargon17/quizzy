@@ -37,7 +37,6 @@ export default function AnswersController({ questionData }) {
   };
 
   const uploadNewAnswer = () => {
-    console.log(newAnswer);
     axios
       .post("http://localhost:5000/api/qa/answers", newAnswer)
       .then((response) => {
@@ -47,6 +46,17 @@ export default function AnswersController({ questionData }) {
           text: "",
           state: false,
         });
+        getAnswers();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const deleteAnswer = (id) => {
+    axios
+      .delete(`http://localhost:5000/api/qa/answers/${id}`)
+      .then(() => {
         getAnswers();
       })
       .catch((error) => {
@@ -79,7 +89,7 @@ export default function AnswersController({ questionData }) {
           </thead>
           <tbody>
             {answers.map((answer, index) => (
-              <tr key={answer.id}>
+              <tr key={answer._id}>
                 <td>{index + 1}</td>
                 <td className="table__description">{answer.text}</td>
                 <td>{answer.state ? "Yes" : "No"}</td>
@@ -104,7 +114,7 @@ export default function AnswersController({ questionData }) {
                     </svg>
                   </button>
                   <button
-                    // onClick={() => deleteQuestion(question.id)}
+                    onClick={() => deleteAnswer(answer._id)}
                     className="btn btn-error btn-round-s btn-icon btn-icon--sm m-0"
                   >
                     <svg
