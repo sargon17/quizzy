@@ -290,6 +290,20 @@
     overflow: scroll;
     border-radius: $border_radius--md;
     scroll-behavior: smooth;
-    scrollbar-color: $c_primary-transparent-30 $c_primary-100;
+    scrollbar-color: $c_primary-transparent-30 $c_primary-transparent-10;
+
+    .add-answer {
+      color: $c_primary;
+      text-transform: uppercase;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: $transition;
+      text-align: center;
+      margin-top: 20px;
+      &:hover {
+        color: $c_primary-700;
+      }
+    }
   }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 import axios from "axios";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 export default function AnswersController({ questionData }) {
   const { data: quiz, question } = questionData;
@@ -13,6 +14,11 @@ export default function AnswersController({ questionData }) {
   }, []);
 
   const [isNewAnswer, setIsNewAnswer] = useState(false);
+
+  const newAnswerRef = useOnclickOutside(() => {
+    setIsNewAnswer(false);
+  });
+
   const [newAnswer, setNewAnswer] = useState({
     question: question.id,
     text: "",
@@ -117,7 +123,7 @@ export default function AnswersController({ questionData }) {
             ))}
 
             {isNewAnswer && (
-              <tr>
+              <tr ref={newAnswerRef}>
                 <td>{answers.length + 1}</td>
                 <td>
                   <textarea
@@ -156,13 +162,16 @@ export default function AnswersController({ questionData }) {
             )}
           </tbody>
         </table>
-        <p
-          onClick={() => {
-            setIsNewAnswer((prev) => !prev);
-          }}
-        >
-          Add Answer
-        </p>
+        {!isNewAnswer && (
+          <p
+            className="add-answer"
+            onClick={() => {
+              setIsNewAnswer((prev) => !prev);
+            }}
+          >
+            Add Answer
+          </p>
+        )}
       </div>
     </div>
   );
