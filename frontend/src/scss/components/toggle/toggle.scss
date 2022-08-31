@@ -1,0 +1,67 @@
+@import "../variables";
+
+.toggle {
+  height: 22px;
+  aspect-ratio: 2;
+  border: 1px solid $c_surface-gray;
+  border-radius: 100px;
+  background-color: adjust-color($color: $c_surface-gray, $alpha: -0.8);
+  transition: $transition;
+  cursor: pointer;
+
+  &--on {
+    border-color: adjust-color(
+      $color: $c_surface-green,
+      $lightness: -5%,
+      $alpha: -0.2
+    );
+    background-color: adjust-color($color: $c_surface-green, $alpha: -0.8);
+  }
+  &--off {
+    border-color: adjust-color($color: $c_error, $lightness: -5%, $alpha: -0.2);
+    background-color: adjust-color($color: $c-error, $alpha: -0.8);
+  }
+  .toggle__circle {
+    height: 100%;
+    width: 50%;
+    border-radius: 100px;
+    background-color: $c_surface-gray;
+    transition: $transition;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+    font-size: 1.5rem;
+    color: white;
+    transition: $transition;
+  }
+  .toggle__circle--on {
+    background-color: $c_surface-green;
+    margin: 0 0 0 auto;
+    animation: moveOn 0.3s ease-in-out;
+  }
+  .toggle__circle--off {
+    background-color: $c_error;
+    margin: 0 auto 0 0;
+    animation: moveOff 0.3s ease-in-out;
+  }
+}
+
+@keyframes moveOn {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: 22px;
+  }
+}
+@keyframes moveOff {
+  0% {
+    margin-left: 22px;
+  }
+  100% {
+    margin-left: 0px;
+  }
+}
