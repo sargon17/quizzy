@@ -14,6 +14,7 @@ import SubCategoryPage from "./pages/SubCategoriesPage";
 import QuizzesPage from "./pages/QuizzesPage";
 import QuizPage from "./pages/QuizPage";
 import "./App.css";
+import "react-notifications-component/dist/theme.css";
 
 import Header from "./components/Header";
 
@@ -23,6 +24,8 @@ import QuizzesList from "./components/QuizzesList";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, userDataSelector } from "./features/user/userDataSlice";
+
+import { ReactNotifications } from "react-notifications-component";
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -61,6 +64,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <ReactNotifications />
         <Routes>
           {/* Front Office */}
           <Route
