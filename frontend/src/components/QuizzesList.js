@@ -59,7 +59,7 @@ export default function QuizzesList() {
           </Link>
         </div>
         <div className="tile__body">
-          <table className="tile__table">
+          <table className="table">
             <thead>
               <tr>
                 <th>Image</th>
@@ -72,11 +72,17 @@ export default function QuizzesList() {
             </thead>
             <tbody>
               {quizzes.map((quiz) => (
-                <tr key={quiz._id}>
+                <tr key={quiz.id}>
                   <td>
-                    <img src={quiz.imagePath} alt="quiz image" />
+                    <Link to={`/dashboard/edit-quiz/${quiz.id}`}>
+                      <img src={quiz.imagePath} alt="quiz image" />
+                    </Link>
                   </td>
-                  <td>{quiz.title}</td>
+                  <td>
+                    <Link to={`/dashboard/edit-quiz/${quiz.id}`}>
+                      {quiz.title}
+                    </Link>
+                  </td>
                   <td className="table__description table__row--long">
                     {textShortener(quiz.description, 100)}
                   </td>
@@ -86,22 +92,26 @@ export default function QuizzesList() {
                     <div className="flex justify-center items-center">
                       <Link
                         to={`/dashboard/edit-quiz/${quiz.id}`}
-                        className="btn btn-primary btn-sm btn-round-s btn-icon m-0 mr-2"
+                        className="btn btn-primary btn-round-s btn-icon btn-icon--sm m-0 mr-2"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
                           height="16"
                           fill="currentColor"
-                          class="bi bi-pencil-fill"
+                          class="bi bi-pencil-square"
                           viewBox="0 0 16 16"
                         >
-                          <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                          <path
+                            fill-rule="evenodd"
+                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                          />
                         </svg>
                       </Link>
                       <button
                         onClick={() => deleteQuiz(quiz.id)}
-                        className="btn btn-error btn-sm btn-round-s btn-icon m-0"
+                        className="btn btn-error btn-round-s btn-icon btn-icon--sm m-0"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
