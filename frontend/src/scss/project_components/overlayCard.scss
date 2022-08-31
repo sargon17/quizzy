@@ -1,0 +1,30 @@
+@import "../components/variables.scss";
+
+.overlay-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: adjust-color($color: #000, $alpha: -0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    width: 60%;
+    min-width: 700px;
+    min-height: 500px;
+    max-height: 600px;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $c_text-main;
+    background-color: $c_surface-main;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
