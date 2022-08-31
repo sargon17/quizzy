@@ -19,23 +19,21 @@ exports.answersByQuestionId = async (req, res) => {
 
 exports.addAnswer = async (req, res) => {
   const answer = new Answer({
-    question: req.params.id,
+    question: req.body.question,
     text: req.body.text,
     state: req.body.state,
   });
+  console.log(answer);
 
   try {
     const savedAnswer = await answer.save();
 
-    const question = await Question.findById(req.params.id);
+    const question = await Question.findById(req.body.question);
     question.answers = [...question.answers, savedAnswer.id];
     const savedQuestion = await question.save();
     console.log(savedQuestion.answers);
 
-    res.status(200).json({
-      message: "Answer created successfully!",
-      answer: savedAnswer,
-    });
+    res.status(200).json(savedAnswer);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
