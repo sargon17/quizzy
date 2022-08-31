@@ -304,6 +304,12 @@
       &:hover {
         color: $c_primary-700;
       }
+      &--max {
+        color: $c_text-secondary;
+        font-size: 0.6rem;
+        font-weight: 400;
+        text-align: center;
+      }
     }
   }
 }
