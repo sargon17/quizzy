@@ -2,29 +2,21 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 export default function Toggle({ state = false, setState }) {
-  const [isOn, setIsOn] = useState(false);
-  useEffect(() => {
-    setIsOn(state);
-  }, [state]);
-  useEffect(() => {
-    setState(isOn);
-  }, [isOn]);
-
   return (
     <div
-      className={isOn ? "toggle toggle--on" : "toggle toggle--off"}
+      className={state ? "toggle toggle--on" : "toggle toggle--off"}
       onClick={() => {
-        setIsOn((prev) => !prev);
+        setState();
       }}
     >
       <div
         className={
-          isOn
+          state
             ? "toggle__circle toggle__circle--on"
             : "toggle__circle toggle__circle--off"
         }
       >
-        {isOn ? (
+        {state ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
