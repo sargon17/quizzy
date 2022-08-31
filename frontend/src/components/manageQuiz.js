@@ -13,6 +13,8 @@ import AddCategory from "./AddCategory";
 import OverlayCard from "./utils/OverlayCard";
 import AnswersController from "./AnswersController";
 
+import { Store } from "react-notifications-component";
+
 export default function ManageQuiz({ isNewQuiz }) {
   const user = useSelector(userDataSelector);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -183,9 +185,35 @@ export default function ManageQuiz({ isNewQuiz }) {
         // console.log(`Quiz updated successfully -- ${response.data}`);
         setIsDataUpdated(false);
         getQuiz();
+        Store.addNotification({
+          title: "Success",
+          message: "Changes saved correctly",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
+        Store.addNotification({
+          title: "Error",
+          message: "Something went wrong",
+          type: "error",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+          },
+        });
       });
   };
 
@@ -281,7 +309,7 @@ export default function ManageQuiz({ isNewQuiz }) {
           )}
         </div>
         <div className="quiz-content col-span-3 col-start-2 flex flex-col h-full">
-          <div className="quiz-title--wrapper">
+          <div className="quiz-title--wrapper flex justify-between">
             {isTitleInput ? (
               <input
                 className="input"
@@ -311,6 +339,16 @@ export default function ManageQuiz({ isNewQuiz }) {
                   {data.title ? data.title : `Quiz by ${user.userName}`}
                 </h3>
               </>
+            )}
+            {!isNewQuiz && (
+              <Link
+                to={`/quiz/${data.id}`}
+                target="_blank"
+                className="btn btn-secondary-outlined btn-sm btn-round-s m-0"
+              >
+                {" "}
+                Try Quiz{" "}
+              </Link>
             )}
           </div>
           <div className="quiz-category" onClick={() => setIsAddCategory(true)}>
