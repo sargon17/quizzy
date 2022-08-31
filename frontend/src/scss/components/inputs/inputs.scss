@@ -20,4 +20,16 @@
   &--primary {
     border-color: $c_primary;
   }
+
+  &--error {
+    border-color: $c_error;
+  }
+}
+.error-message {
+  color: $c_error;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.23rem;
+  text-align: justify;
+  margin-top: -5px;
 }
