@@ -36,7 +36,16 @@ export default function ManageQuiz({ isNewQuiz }) {
 
   const [questions, setQuestions] = useState([]);
   const [isAddQuestion, setIsAddQuestion] = useState(false);
-  const [question, setQuestion] = useState({});
+
+  const newQuestionRef = useOnclickOutside(() => {
+    setIsAddQuestion(false);
+  });
+
+  const [question, setQuestion] = useState({
+    _id: "",
+    answers: [],
+    correctAnswer: "",
+  });
 
   const [isAddImage, setIsAddImage] = useState(false);
   const [questionImage, setQuestionImage] = useState("");
@@ -398,11 +407,11 @@ export default function ManageQuiz({ isNewQuiz }) {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Order</th>
-                    <th>Question</th>
-                    <th>Image</th>
-                    <th>Answers</th>
-                    <th className="w-32">Actions</th>
+                    <th className="w-1/12">Order</th>
+                    <th className="w-5/12">Question</th>
+                    <th className="w-2/12">Image</th>
+                    <th className="w-2/12">Answers</th>
+                    <th className="w-2/12">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="h-full">
@@ -450,7 +459,7 @@ export default function ManageQuiz({ isNewQuiz }) {
                               setQuestionAnswers({ data, question });
                             }}
                           >
-                            {question.answers.length}{" "}
+                            {question.answers.length || "0"}
                             <span>add new answers</span>
                           </p>
                         </td>
@@ -496,8 +505,8 @@ export default function ManageQuiz({ isNewQuiz }) {
                     );
                   })}
                   {isAddQuestion && (
-                    <tr>
-                      <td className="table__description">New Question</td>
+                    <tr ref={newQuestionRef}>
+                      <td>{questions.length + 1}</td>
                       <td>
                         <textarea
                           className="textarea textarea--primary"
@@ -533,7 +542,7 @@ export default function ManageQuiz({ isNewQuiz }) {
                           <LoadImage setImage={setQuestionImage} />
                         )}
                       </td>
-                      <td>0</td>
+                      <td></td>
                       <td>
                         <button
                           className="btn btn-primary btn-sm btn-round-s m-0"
