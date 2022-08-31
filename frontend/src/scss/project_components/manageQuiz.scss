@@ -83,35 +83,6 @@
 
 // ======================= Add Category
 
-.overlay-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: adjust-color($color: #000, $alpha: -0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .card {
-    width: 60%;
-    min-width: 700px;
-    min-height: 500px;
-    max-height: 600px;
-    border-radius: 8px;
-    padding: 0px 10px;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: $c_text-main;
-    background-color: $c_surface-main;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
 .add-category--wrapper {
   .add-category {
     .add-category__title--wrapper {
@@ -248,5 +219,77 @@
     }
   }
 }
-.answers-controller--wrapper {
+
+.add-answer-btn {
+  cursor: pointer;
+  font-weight: 700;
+  color: $c_text-main;
+  font-size: 1.2rem;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  transition: $transition;
+
+  span {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #7d7d7d;
+    color: transparent;
+    transition: inherit;
+  }
+
+  &:hover {
+    span {
+      color: $c_text-tertiary;
+    }
+  }
+}
+.answers-controller {
+  padding: 1.6rem;
+  width: 100%;
+  .answers-controller__header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1.2rem;
+    margin-bottom: 20px;
+
+    .cover--wrapper {
+      width: 245px;
+      aspect-ratio: 2;
+      border-radius: $border_radius--md;
+      overflow: hidden;
+      .cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .title--wrapper {
+      width: 100%;
+      .title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: $c_text-main;
+        text-transform: uppercase;
+      }
+      .text {
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: $c_text-secondary;
+        text-align: justify;
+      }
+    }
+  }
+  .answers-controller__body {
+    width: 100%;
+    max-height: 350px;
+    overflow: scroll;
+    border-radius: $border_radius--md;
+    scroll-behavior: smooth;
+    scrollbar-color: $c_primary-transparent-30 $c_primary-100;
+  }
 }
