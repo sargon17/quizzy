@@ -12,23 +12,9 @@ const sub_category = require("../models/sub_category");
 const { default: mongoose } = require("mongoose");
 const imageMimeType = ["image/jpeg", "image/png", "image/gif"];
 exports.allCategories = async (req, res) => {
-  let categories;
   try {
-    let c = await Category.find({}).exec();
-
-    categories = c.map((category) => {
-      return {
-        id: category._id,
-        title: category.title,
-        image: category.imagePath,
-        imageType: category.imageType,
-      };
-    });
-
-    res.status(200).json({
-      message: "Categories retrieved successfully!",
-      categories: categories,
-    });
+    let categories = await Category.find().sort({ title: 1 }).exec();
+    res.status(200).json(categories);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -80,6 +66,15 @@ exports.createCategory = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deleteCategory = async (req, res) => {
+  try {
+    await Category.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Category deleted successfully!" });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
