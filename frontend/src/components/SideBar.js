@@ -59,6 +59,16 @@ export default function SideBar({ logout }) {
               </Link>
             </li>
             <li className="nav-item">
+              <Link to={"/dashboard/categories"} className="link">
+                Categories
+              </Link>
+            </li>
+            {/* <li className="nav-item">
+              <Link to={"/dashboard/sub-categories"} className="link">
+                View Stats
+              </Link>
+            </li> */}
+            <li className="nav-item">
               <Link to={"/dashboard"} className="link">
                 View Stats
               </Link>
