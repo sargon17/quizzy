@@ -21,6 +21,8 @@ import Header from "./components/Header";
 import DashboardTiles from "./components/DashboardTiles";
 import ManageQuiz from "./components/manageQuiz";
 import QuizzesList from "./components/QuizzesList";
+import CreateCategory from "./components/createCategory";
+import CreateSubCategory from "./components/createSubCategory";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, userDataSelector } from "./features/user/userDataSlice";
@@ -155,6 +157,22 @@ function App() {
             element={
               <Dashboard>
                 <DashboardTiles />
+              </Dashboard>
+            }
+          />
+          <Route
+            path="/dashboard/categories"
+            element={
+              <Dashboard>
+                <CreateCategory />
+              </Dashboard>
+            }
+          />
+          <Route
+            path="/dashboard/sub-categories/:categoryID"
+            element={
+              <Dashboard>
+                <CreateSubCategory />
               </Dashboard>
             }
           />
