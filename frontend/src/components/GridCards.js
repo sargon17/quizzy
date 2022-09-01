@@ -22,7 +22,7 @@ export default function GridCards({
             return (
               <li className="card card-horizontal" key={d.id}>
                 <div className="card-cover">
-                  <img src={d.image} />
+                  <img src={d.imagePath} />
                 </div>
                 <div className="card-body">
                   <div className="card-content">

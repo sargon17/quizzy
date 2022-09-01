@@ -13,7 +13,7 @@ export default function DisplayCategories() {
     axios
       .get("http://localhost:5000/api/category")
       .then((response) => {
-        setCategories(response.data.categories);
+        setCategories(response.data);
         // console.log(response.data.categories);
       })
       .catch((error) => {
@@ -31,9 +31,6 @@ export default function DisplayCategories() {
         Select your category
       </h3>
       <GridCards Data={categories} linkPath="/category/" />
-      <button className="btn btn-primary" onClick={getCategories}>
-        Get Categories
-      </button>
     </div>
   );
 }
