@@ -7,10 +7,12 @@ const {
   allCategories,
   createCategory,
   categoriesByTitle,
+  deleteCategory,
 } = require("../../controllers/category.controller");
 
 router.get("/", allCategories); // get all categories
 router.get("/title/:title", categoriesByTitle); // get categories by title
 router.post("/create", upload.single("image"), createCategory); // create category
+router.delete("/delete/:id", deleteCategory); // delete category
 
 module.exports = router;
