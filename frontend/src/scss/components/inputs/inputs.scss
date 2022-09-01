@@ -1,6 +1,14 @@
 @import "../variables.scss";
 
 .input {
+  width: 80%;
+  border-radius: 8px;
+  border: 1px solid $c_primary;
+  padding: 10px 10px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: $c_text-main;
+
   .input__primary {
   }
 }
