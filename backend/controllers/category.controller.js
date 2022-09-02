@@ -45,6 +45,15 @@ exports.categoriesByTitle = async (req, res) => {
   }
 };
 
+exports.categoryById = async (req, res) => {
+  try {
+    let category = await Category.findById(req.params.id).exec();
+    res.status(200).json(category);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.createCategory = async (req, res) => {
   const image = fs.readFileSync(req.file.path);
   const encode_image = image.toString("base64");
