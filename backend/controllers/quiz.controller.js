@@ -222,9 +222,13 @@ exports.updateQuiz = async (req, res) => {
 exports.deleteQuiz = async (req, res) => {
   let quiz;
   let user;
+  let subCategory;
   try {
     quiz = await Quiz.findById(req.params.id).exec();
     user = await User.findOne({ _id: req.params.userID }).exec();
+    subCategory = await SubCategory.findById(quiz.subCategory).exec();
+    await subCategory.quizzes.pull(quiz.id);
+    await subCategory.save();
     if (user.id !== quiz.creator.toString()) {
       console.log(
         "userID: " +
