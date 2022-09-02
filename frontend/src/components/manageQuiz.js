@@ -73,6 +73,7 @@ export default function ManageQuiz({ isNewQuiz }) {
           subCategory: response.data.subCategory,
           category: response.data.subCategory.category,
           creatorID: response.data.creator._id,
+          published: response.data.published,
         }));
         setImage(response.data.imagePath);
         setIsLoaded(true);
@@ -397,6 +398,10 @@ export default function ManageQuiz({ isNewQuiz }) {
                       : "btn btn-primary btn-sm btn-round-s m-0"
                   }
                   onClick={quizPublishToggle}
+                  disabled={
+                    questions.length === 0 ||
+                    questions.find((q) => q.answers.length < 2)
+                  }
                 >
                   {data.published ? "Unpublish" : "Publish"}
                 </button>
@@ -663,6 +668,25 @@ export default function ManageQuiz({ isNewQuiz }) {
                 </tbody>
               </table>
             </div>
+            {questions.length === 0 && !isAddQuestion && (
+              <div className="h-full w-full flex justify-center items-center text-center ">
+                <div>
+                  <p className="font-bold antialiased select-none text-gray-700">
+                    No questions yet
+                  </p>
+                  <p className="text-xs antialiased select-none text-gray-500 ">
+                    Before publishing{" "}
+                    <span
+                      className="text-xs cursor-pointer hover:text-blue-500"
+                      onClick={() => setIsAddQuestion(true)}
+                    >
+                      add one question
+                    </span>{" "}
+                    and two answers at least
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
