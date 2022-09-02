@@ -28,6 +28,10 @@ const quizSchema = new mongoose.Schema(
       type: String,
       required: [true, "Title is required"],
     },
+    published: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     toJSON: { virtuals: true },
