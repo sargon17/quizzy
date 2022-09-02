@@ -15,8 +15,8 @@ export default function SubCategoryPage() {
     axios
       .get(`http://localhost:5000/api/sub_category/${categoryID}`)
       .then((response) => {
-        setSubCategories(response.data.subCategories);
-        console.log(response.data.subCategories);
+        setSubCategories(response.data);
+        // console.log(response.data.subCategories);
       })
       .catch((error) => {
         console.log(error);

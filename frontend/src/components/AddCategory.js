@@ -35,7 +35,7 @@ export default function AddCategory({ setData, open, category, subCategory }) {
           : `http://localhost:5000/api/category`
       )
       .then((response) => {
-        setCategories(response.data.categories);
+        setCategories(response.data);
         // console.log(response.data.categories);
       })
       .catch((error) => {
@@ -44,10 +44,10 @@ export default function AddCategory({ setData, open, category, subCategory }) {
   };
   useEffect(() => {
     getCategories();
-    if (category.name) {
+    if (category) {
       setSelectedCategory(category);
     }
-    if (subCategory.name) {
+    if (subCategory) {
       setSelectedSubCategory(subCategory);
     }
   }, []);
@@ -61,8 +61,8 @@ export default function AddCategory({ setData, open, category, subCategory }) {
           : `http://localhost:5000/api/sub_category/${id}`
       )
       .then((response) => {
-        setSubCategories(response.data.subCategories);
-        console.log(response.data.subCategories);
+        setSubCategories(response.data);
+        // console.log(response.data.subCategories);
       })
       .catch((error) => {
         console.log(error);
@@ -81,7 +81,7 @@ export default function AddCategory({ setData, open, category, subCategory }) {
   }, [selectedCategory]);
 
   return (
-    <div className="add-category card" ref={cardRef}>
+    <div className="add-category" ref={cardRef}>
       <div className="add-category__title--wrapper">
         <h2 className="add-category__title">Add Category</h2>
         <h3 className="add-category__selected">
@@ -117,7 +117,7 @@ export default function AddCategory({ setData, open, category, subCategory }) {
               }}
             >
               <div className="mini-card-image">
-                <img src={category.image} alt={category.title} />
+                <img src={category.imagePath} alt={category.title} />
               </div>
               <div className="mini-card-title">
                 <h3 className="title">{category.title}</h3>
@@ -156,7 +156,7 @@ export default function AddCategory({ setData, open, category, subCategory }) {
                   onClick={() => setSelectedSubCategory(category)}
                 >
                   <div className="mini-card-image">
-                    <img src={category.image} alt={category.title} />
+                    <img src={category.imagePath} alt={category.title} />
                   </div>
                   <div className="mini-card-title">
                     <h3 className="title">{category.title}</h3>
