@@ -28,6 +28,22 @@ export default function QuizPage() {
     getQuestions();
   }, []);
 
+  useEffect(() => {
+    questions.forEach((question) => {
+      question.answers.sort((a, b) => 0.5 - Math.random());
+    });
+  }, [questions]);
+
+  useEffect(() => {
+    if (answers.length > 0) {
+      setCurrentAnswer(
+        answers.find(
+          (answer) => answer.question === questions[activeQuestion].id
+        ).response || ""
+      );
+    }
+  }, [activeQuestion, answers]);
+
   const getQuiz = () => {
     axios
       .get(`http://localhost:5000/api/quiz/${quizID}`)
@@ -142,7 +158,7 @@ export default function QuizPage() {
                           <li
                             key={answer._id}
                             className={
-                              currentAnswer === index
+                              currentAnswer === answer._id
                                 ? "question-card__answer question-card__answer-selected"
                                 : "question-card__answer"
                             }
