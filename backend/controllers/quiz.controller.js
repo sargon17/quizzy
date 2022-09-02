@@ -73,18 +73,7 @@ exports.quizByCreator = async (req, res) => {
       })
       .exec();
 
-    quizzes = q.map((quiz) => {
-      return {
-        id: quiz.id,
-        title: quiz.title,
-        description: quiz.description,
-        subCategory: quiz.subCategory,
-        imagePath: quiz.imagePath,
-        from: quiz.from,
-      };
-    });
-
-    res.status(200).json(quizzes);
+    res.status(200).json(q);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
