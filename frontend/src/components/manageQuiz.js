@@ -232,7 +232,7 @@ export default function ManageQuiz({ isNewQuiz }) {
         }));
         Store.addNotification({
           title: "Success",
-          message: `Quiz ${
+          message: `Quiz ${data.title} ${
             !data.published ? "published" : "unpublished"
           } correctly`,
           type: "success",
@@ -391,7 +391,11 @@ export default function ManageQuiz({ isNewQuiz }) {
             {!isNewQuiz && (
               <div className="flex justify-center items-center gap-2">
                 <button
-                  className="btn btn-primary btn-sm btn-round-s m-0"
+                  className={
+                    data.published
+                      ? "btn btn-primary-outlined btn-sm btn-round-s m-0"
+                      : "btn btn-primary btn-sm btn-round-s m-0"
+                  }
                   onClick={quizPublishToggle}
                 >
                   {data.published ? "Unpublish" : "Publish"}
@@ -407,7 +411,10 @@ export default function ManageQuiz({ isNewQuiz }) {
               </div>
             )}
           </div>
-          <div className="quiz-category" onClick={() => setIsAddCategory(true)}>
+          <div
+            className="quiz-category w-max"
+            onClick={() => setIsAddCategory(true)}
+          >
             {!data.category.title && !data.subCategory.title ? (
               <p>+ Add Category</p>
             ) : (
