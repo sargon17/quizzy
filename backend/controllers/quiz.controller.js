@@ -2,6 +2,7 @@ const Quiz = require("../models/quiz");
 const Question = require("../models/question");
 const Answer = require("../models/answer");
 const User = require("../models/user");
+const SubCategory = require("../models/sub_category");
 
 const fs = require("fs");
 
@@ -115,7 +116,10 @@ exports.lastQuizByCreator = async (req, res) => {
 exports.quizBySubCategory = async (req, res) => {
   console.time("quizBySubCategory");
   try {
-    let quizzes = await Quiz.find({ subCategory: req.params.id })
+    let quizzes = await Quiz.find({
+      subCategory: req.params.id,
+      published: true,
+    })
       .populate([
         {
           path: "subCategory",
@@ -151,10 +155,15 @@ exports.createQuiz = async (req, res) => {
     image: finalImg.image,
     imageType: finalImg.contentType,
   });
+
+  let subCategory = await SubCategory.findById(req.body.subCategoryID);
+
   let creator;
   try {
     creator = await User.findOne({ _id: req.body.creatorID }).exec();
     quiz.creator = creator.id;
+    subCategory.quizzes.push(quiz.id);
+    await subCategory.save();
     await quiz.save();
     res.status(200).json(quiz);
   } catch (err) {
@@ -188,6 +197,10 @@ exports.updateQuiz = async (req, res) => {
   }
   if (req.body.subCategoryID && req.body.subCategoryID !== quiz.subCategory) {
     quiz.subCategory = req.body.subCategoryID;
+  }
+  if (req.body.published !== undefined) {
+    console.log("published", req.body.published);
+    quiz.published = req.body.published;
   }
   if (req.file) {
     quiz.image = finalImg.image;
