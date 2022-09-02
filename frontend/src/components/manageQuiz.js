@@ -95,7 +95,9 @@ export default function ManageQuiz({ isNewQuiz }) {
       creatorID: user._id,
       description: "",
     }));
-  }, []);
+    setImage("");
+    setQuestions([]);
+  }, [isNewQuiz]);
   useEffect(() => {
     setData((prevState) => ({
       ...prevState,
@@ -205,6 +207,52 @@ export default function ManageQuiz({ isNewQuiz }) {
           title: "Error",
           message: "Something went wrong",
           type: "error",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+          },
+        });
+      });
+  };
+
+  const quizPublishToggle = () => {
+    axios
+      .put(`http://localhost:5000/api/quiz/${data.id}`, {
+        published: !data.published,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setData((prevState) => ({
+          ...prevState,
+          published: !data.published,
+        }));
+        Store.addNotification({
+          title: "Success",
+          message: `Quiz ${
+            !data.published ? "published" : "unpublished"
+          } correctly`,
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+          },
+        });
+        getQuiz();
+      })
+      .catch((error) => {
+        console.log(error);
+        Store.addNotification({
+          title: "Error",
+          message: "Something went wrong",
+          type: "warning",
           insert: "top",
           container: "top-right",
           animationIn: ["animated", "fadeIn"],
@@ -334,21 +382,29 @@ export default function ManageQuiz({ isNewQuiz }) {
               <>
                 <h3
                   className="quiz-title"
-                  onDoubleClick={() => setIsTitleInput(true)}
+                  onClick={() => setIsTitleInput(true)}
                 >
                   {data.title ? data.title : `Quiz by ${user.userName}`}
                 </h3>
               </>
             )}
             {!isNewQuiz && (
-              <Link
-                to={`/quiz/${data.id}`}
-                target="_blank"
-                className="btn btn-secondary-outlined btn-sm btn-round-s m-0"
-              >
-                {" "}
-                Try Quiz{" "}
-              </Link>
+              <div className="flex justify-center items-center gap-2">
+                <button
+                  className="btn btn-primary btn-sm btn-round-s m-0"
+                  onClick={quizPublishToggle}
+                >
+                  {data.published ? "Unpublish" : "Publish"}
+                </button>
+                <Link
+                  to={`/quiz/${data.id}`}
+                  target="_blank"
+                  className="btn btn-secondary-outlined btn-sm btn-round-s m-0"
+                >
+                  {" "}
+                  Try Quiz{" "}
+                </Link>
+              </div>
             )}
           </div>
           <div className="quiz-category" onClick={() => setIsAddCategory(true)}>
@@ -362,12 +418,14 @@ export default function ManageQuiz({ isNewQuiz }) {
           </div>
           {isAddCategory && (
             <div className="add-category--wrapper overlay-card">
-              <AddCategory
-                setData={setCategoryAndSubCategory}
-                open={setIsAddCategory}
-                category={data.category}
-                subCategory={data.subCategory}
-              />
+              <OverlayCard>
+                <AddCategory
+                  setData={setCategoryAndSubCategory}
+                  open={setIsAddCategory}
+                  category={data.category}
+                  subCategory={data.subCategory}
+                />
+              </OverlayCard>
             </div>
           )}
           <div className="quiz-description--wrapper grow">
@@ -395,7 +453,7 @@ export default function ManageQuiz({ isNewQuiz }) {
             ) : (
               <p
                 className="quiz-description"
-                onDoubleClick={() => setIsDescriptionInput(true)}
+                onClick={() => setIsDescriptionInput(true)}
               >
                 {data.description
                   ? data.description
