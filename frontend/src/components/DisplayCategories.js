@@ -7,6 +7,7 @@ import GridCards from "../components/GridCards";
 import "../scss/style.scss";
 
 export default function DisplayCategories() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [categories, setCategories] = useState([]);
 
   const getCategories = () => {
@@ -14,6 +15,7 @@ export default function DisplayCategories() {
       .get("http://localhost:5000/api/category")
       .then((response) => {
         setCategories(response.data);
+        setIsLoaded(true);
         // console.log(response.data.categories);
       })
       .catch((error) => {
@@ -27,10 +29,12 @@ export default function DisplayCategories() {
 
   return (
     <div className="container mx-auto">
-      <h3 className="text-center text-2xl font-bold p-10">
-        Select your category
-      </h3>
       <GridCards Data={categories} linkPath="/category/" />
+      {!isLoaded && (
+        <div className="loading">
+          <div className="pulsate"></div>
+        </div>
+      )}
     </div>
   );
 }

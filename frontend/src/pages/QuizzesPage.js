@@ -7,6 +7,7 @@ import axios from "axios";
 import Card from "../components/Card";
 
 export default function QuizzesPage() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
   const { subCategoryID } = useParams();
 
@@ -15,7 +16,8 @@ export default function QuizzesPage() {
       .get(`http://localhost:5000/api/quiz/sub-category/${subCategoryID}`)
       .then((response) => {
         setQuizzes(response.data);
-        console.log(response.data);
+        setIsLoaded(true);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -45,6 +47,11 @@ export default function QuizzesPage() {
           />
         ))}
       </ul>
+      {!isLoaded && (
+        <div className="loading">
+          <div className="pulsate"></div>
+        </div>
+      )}
     </div>
   );
 }

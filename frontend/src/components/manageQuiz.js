@@ -18,6 +18,8 @@ import { Store } from "react-notifications-component";
 export default function ManageQuiz({ isNewQuiz }) {
   const user = useSelector(userDataSelector);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isQuestionsLoaded, setIsQuestionLoaded] = useState(false);
+
   const [data, setData] = useState({
     title: "Quiz by " + user.userName,
     category: {},
@@ -272,6 +274,7 @@ export default function ManageQuiz({ isNewQuiz }) {
       .then((response) => {
         console.log(response.data);
         setQuestions(response.data);
+        setIsQuestionLoaded(true);
       })
       .catch((error) => {
         console.log(error);
@@ -685,6 +688,11 @@ export default function ManageQuiz({ isNewQuiz }) {
                     and two answers at least
                   </p>
                 </div>
+                {!isQuestionsLoaded && (
+                  <div className="loading">
+                    <div className="pulsate"></div>
+                  </div>
+                )}
               </div>
             )}
           </div>
