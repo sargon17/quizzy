@@ -32,6 +32,18 @@ const quizSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    totalTimesPlayed: {
+      type: Number,
+      default: 0,
+    },
+    totalTimesSuccess: {
+      type: Number,
+      default: 0,
+    },
+    percentageToSuccess: {
+      type: Number,
+      default: 60,
+    },
   },
   {
     toJSON: { virtuals: true },
