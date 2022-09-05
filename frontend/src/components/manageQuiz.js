@@ -60,22 +60,16 @@ export default function ManageQuiz({ isNewQuiz }) {
   const [questionAnswers, setQuestionAnswers] = useState({});
 
   const { quizID } = useParams();
-  console.log(quizID);
 
   const getQuiz = () => {
     axios
       .get(`http://localhost:5000/api/quiz/${quizID}`)
       .then((response) => {
-        console.log(response.data);
         setData((prevState) => ({
           ...prevState,
-          id: response.data.id,
-          title: response.data.title,
-          description: response.data.description,
-          subCategory: response.data.subCategory,
+          ...response.data,
           category: response.data.subCategory.category,
           creatorID: response.data.creator._id,
-          published: response.data.published,
         }));
         setImage(response.data.imagePath);
         setIsLoaded(true);
@@ -137,8 +131,7 @@ export default function ManageQuiz({ isNewQuiz }) {
   // const [quizzes, setQuizzes] = useState([]);
 
   const createQuiz = () => {
-    console.log(`User ${user._id} is creating a quiz`);
-    console.log(user);
+    // console.log(`User ${user._id} is creating a quiz`);
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("categoryID", data.category.id);
@@ -155,10 +148,7 @@ export default function ManageQuiz({ isNewQuiz }) {
         transformRequest: (formData) => formData,
       })
       .then((response) => {
-        console.log(`Quiz created successfully -- ${response.data}`);
-
         window.location.href = "/dashboard/edit-quiz/" + response.data._id;
-        // /dashboard/edit-quiz/630dcbc4fa0ca2daefac1a36
       })
       .catch((error) => {
         console.log(error);
@@ -166,8 +156,6 @@ export default function ManageQuiz({ isNewQuiz }) {
   };
 
   const updateQuiz = () => {
-    console.log(`User ${user._id} is updating a quiz`);
-    console.log(user);
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("categoryID", data.category.id || data.category._id);
@@ -187,7 +175,6 @@ export default function ManageQuiz({ isNewQuiz }) {
         transformRequest: (formData) => formData,
       })
       .then((response) => {
-        // console.log(`Quiz updated successfully -- ${response.data}`);
         setIsDataUpdated(false);
         getQuiz();
         Store.addNotification({
@@ -228,7 +215,6 @@ export default function ManageQuiz({ isNewQuiz }) {
         published: !data.published,
       })
       .then((response) => {
-        console.log(response.data);
         setData((prevState) => ({
           ...prevState,
           published: !data.published,
@@ -272,7 +258,6 @@ export default function ManageQuiz({ isNewQuiz }) {
     axios
       .get(`http://localhost:5000/api/qa/${quizID}`)
       .then((response) => {
-        console.log(response.data);
         setQuestions(response.data);
         setIsQuestionLoaded(true);
       })
@@ -297,10 +282,35 @@ export default function ManageQuiz({ isNewQuiz }) {
         transformRequest: (formData) => formData,
       })
       .then((response) => {
-        console.log(`Question created successfully -- ${response.data}`);
+        Store.addNotification({
+          title: "Success",
+          message: "Question added correctly",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
+        Store.addNotification({
+          title: "Error",
+          message: `Something went wrong: ${error} `,
+          type: "warning",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+          },
+        });
       })
       .then(() => {
         setIsAddQuestion(false);
@@ -314,11 +324,36 @@ export default function ManageQuiz({ isNewQuiz }) {
     axios
       .delete(`http://localhost:5000/api/qa/${questionID}`)
       .then((response) => {
-        console.log(response.data);
+        Store.addNotification({
+          title: "Success",
+          message: "Question deleted correctly",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+          },
+        });
         getQuiz();
       })
       .catch((error) => {
         console.log(error);
+        Store.addNotification({
+          title: "Error",
+          message: `Something went wrong: ${error} `,
+          type: "warning",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+          },
+        });
       });
   };
 
@@ -390,6 +425,15 @@ export default function ManageQuiz({ isNewQuiz }) {
                 >
                   {data.title ? data.title : `Quiz by ${user.userName}`}
                 </h3>
+                {data.totalTimesPlayed !== 0 &&
+                  data.totalTimesSuccess !== 0 && (
+                    <p>
+                      {Math.round(
+                        (data.totalTimesSuccess / data.totalTimesPlayed) * 100
+                      )}
+                      %
+                    </p>
+                  )}
               </>
             )}
             {!isNewQuiz && (
