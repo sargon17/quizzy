@@ -399,7 +399,7 @@ export default function ManageQuiz({ isNewQuiz }) {
           <div className="quiz-title--wrapper flex justify-between">
             {isTitleInput ? (
               <input
-                className="input"
+                className="input input-title"
                 type="text"
                 id="title"
                 onChange={(e) => {
@@ -418,23 +418,23 @@ export default function ManageQuiz({ isNewQuiz }) {
                 ref={titleRef}
               />
             ) : (
-              <>
+              <div className="flex justify-start items-center gap-2">
                 <h3
                   className="quiz-title"
                   onClick={() => setIsTitleInput(true)}
                 >
                   {data.title ? data.title : `Quiz by ${user.userName}`}
                 </h3>
-                {data.totalTimesPlayed !== 0 &&
-                  data.totalTimesSuccess !== 0 && (
-                    <p>
-                      {Math.round(
-                        (data.totalTimesSuccess / data.totalTimesPlayed) * 100
-                      )}
-                      %
-                    </p>
-                  )}
-              </>
+                {data.totalTimesPlayed !== 0 && data.totalTimesSuccess !== 0 && (
+                  <p className="quiz-stats-badge">
+                    <span>Passing rate: </span>
+                    {Math.round(
+                      (data.totalTimesSuccess / data.totalTimesPlayed) * 100
+                    )}
+                    %
+                  </p>
+                )}
+              </div>
             )}
             {!isNewQuiz && (
               <div className="flex justify-center items-center gap-2">

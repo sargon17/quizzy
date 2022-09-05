@@ -32,6 +32,26 @@
           color: $c_text-main;
           cursor: pointer;
         }
+        .quiz-stats-badge {
+          padding: 1px 8px;
+          background: $c_secondary;
+          color: white;
+          font-weight: 700;
+          border-radius: 100px;
+
+          span {
+            font-weight: 400;
+            font-size: 14px;
+          }
+        }
+        .input-title {
+          width: 50%;
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: $c_text-main;
+          padding: 0 5px;
+          border: none;
+        }
       }
       .quiz-category {
         p {
