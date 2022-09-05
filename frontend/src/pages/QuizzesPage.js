@@ -44,6 +44,7 @@ export default function QuizzesPage() {
             key={quiz.key}
             image={quiz.imagePath}
             linkText="Try Yourself"
+            passingRate={quiz.passingRate}
           />
         ))}
       </ul>

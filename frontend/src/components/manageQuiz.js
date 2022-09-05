@@ -425,12 +425,10 @@ export default function ManageQuiz({ isNewQuiz }) {
                 >
                   {data.title ? data.title : `Quiz by ${user.userName}`}
                 </h3>
-                {data.totalTimesPlayed !== 0 && data.totalTimesSuccess !== 0 && (
+                {data.passingRate > 0 && (
                   <p className="quiz-stats-badge">
                     <span>Passing rate: </span>
-                    {Math.round(
-                      (data.totalTimesSuccess / data.totalTimesPlayed) * 100
-                    )}
+                    {data.passingRate}
                     %
                   </p>
                 )}

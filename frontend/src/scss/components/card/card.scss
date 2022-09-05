@@ -48,6 +48,30 @@ $card-padding: 20px;
         margin: 0;
         color: $c_text-secondary;
       }
+      .card-stat {
+        font-weight: 700;
+        color: $c_text-secondary;
+
+        cursor: default;
+
+        span {
+          font-size: 0.7rem;
+          font-weight: 400;
+          color: $c_text-light-gray;
+          transition: $transition;
+        }
+        &:hover {
+          span {
+            color: $c_text-secondary;
+          }
+        }
+        &--positive {
+          color: $c_surface-green;
+        }
+        &--negative {
+          color: $c_error;
+        }
+      }
 
       .card-title {
         font-size: 1.6rem;
