@@ -207,6 +207,24 @@ exports.updateQuiz = async (req, res) => {
   }
 };
 
+exports.quizSaveStats = async (req, res) => {
+  let quiz = await Quiz.findById(req.params.id).exec();
+  if (!quiz) {
+    res.status(400).json({ message: "Quiz not found" });
+  }
+  try {
+    quiz.totalTimesPlayed += 1;
+    if (req.body.score > quiz.percentageToSuccess) {
+      quiz.totalTimesSuccess += 1;
+    }
+    await quiz.save();
+    res.status(200);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // delete quiz
 exports.deleteQuiz = async (req, res) => {
   let quiz;
