@@ -83,7 +83,7 @@ export default function QuizPage() {
       })
       .then((response) => {
         console.log(response.data);
-        calcPercentage(response.data.correctAnswers);
+        calcStats(response.data.correctAnswers);
         setShowResults(true);
       })
       .catch((e) => {
@@ -91,10 +91,27 @@ export default function QuizPage() {
       });
   };
 
-  const calcPercentage = (correctAnswersNumber) => {
-    setCorrectPercentage(
-      Math.round((correctAnswersNumber / questions.length) * 100)
+  const saveQuizStats = (score) => {
+    axios
+      .put(`http://localhost:5000/api/quiz/stats/${quizID}`, {
+        score,
+      })
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log("Error saving quiz stats");
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const calcStats = (correctAnswersNumber) => {
+    const percentage = Math.round(
+      (correctAnswersNumber / questions.length) * 100
     );
+    setCorrectPercentage(percentage);
+    saveQuizStats(percentage);
   };
 
   return (
