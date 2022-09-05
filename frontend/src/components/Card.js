@@ -12,6 +12,7 @@ export default function Card({
   text,
   image,
   linkText,
+  passingRate,
   id,
 }) {
   return (
@@ -24,7 +25,21 @@ export default function Card({
         )}
         <div className="card-body">
           <div className="card-content">
-            {overTitle && <p className="card-overTitle">By: {overTitle}</p>}
+            <div className=" flex justify-between items-center ">
+              {overTitle && <p className="card-overTitle">By: {overTitle}</p>}
+              {passingRate > 0 && (
+                <p
+                  className={
+                    passingRate > 50
+                      ? "card-stat card-stat--positive"
+                      : "card-stat card-stat--negative"
+                  }
+                >
+                  <span>Passing Rate: </span>
+                  {passingRate}%
+                </p>
+              )}
+            </div>
             {title && <h4 className="card-title">{title}</h4>}
             {subTitle && <p className="card-subTitle">{subTitle}</p>}
             {text && <p className="card-text">{text}</p>}
