@@ -44,6 +44,10 @@ const quizSchema = new mongoose.Schema(
       type: Number,
       default: 60,
     },
+    likes: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     toJSON: { virtuals: true },
