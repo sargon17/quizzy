@@ -33,16 +33,50 @@
           cursor: pointer;
         }
         .quiz-stats-badge {
-          padding: 1px 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 2px;
+          padding: 0px 8px;
           background: $c_secondary;
           color: white;
           font-weight: 700;
           border-radius: 100px;
           cursor: pointer;
+          width: 50px;
+          // animation: name duration timing-function delay iteration-count direction fill-mode;
 
-          span {
+          &__message {
+            // display: block;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            overflow: hidden;
+            width: 0px;
+            height: 0;
             font-weight: 400;
             font-size: 14px;
+          }
+
+          &:hover {
+            animation: messageIn 500ms both ease-in-out;
+            width: 160px;
+
+            .quiz-stats-badge__message {
+              height: auto;
+              width: 95px;
+            }
+          }
+
+          @keyframes messageIn {
+            0% {
+              width: 50px;
+            }
+            100% {
+              width: 160px;
+            }
           }
         }
         .input-title {

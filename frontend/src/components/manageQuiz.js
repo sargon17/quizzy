@@ -426,11 +426,12 @@ export default function ManageQuiz({ isNewQuiz }) {
                   {data.title ? data.title : `Quiz by ${user.userName}`}
                 </h3>
                 {data.passingRate > 0 && (
-                  <p className="quiz-stats-badge">
-                    <span>Passing rate: </span>
-                    {data.passingRate}
-                    %
-                  </p>
+                  <div className="quiz-stats-badge">
+                    <div className="quiz-stats-badge__message">
+                      <p>Passing&nbsp;rate: </p>
+                    </div>
+                    <p>{data.passingRate}%</p>
+                  </div>
                 )}
               </div>
             )}
