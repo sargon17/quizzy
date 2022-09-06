@@ -23,6 +23,17 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password is required"],
   },
   createdAt: { type: Date, default: Date.now },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
+  likedQuizzes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Quiz",
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", userSchema);
