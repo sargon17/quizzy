@@ -61,7 +61,7 @@ exports.deleteAnswer = async (req, res) => {
 };
 
 exports.controlAnswers = async (req, res) => {
-  console.log(req.body.answers);
+  // console.log(req.body.answers);
   let correctAnswers = 0;
   let correctQuestionId = [];
   try {
@@ -69,15 +69,24 @@ exports.controlAnswers = async (req, res) => {
       const question = await Question.findById(req.body.answers[i].question)
         .populate("answers")
         .exec();
+
+      question.totalTimesPlayed += 1;
+      let isCorrect = false;
       question.answers.forEach((answer) => {
         if (answer.id == req.body.answers[i].response) {
-          console.log(answer.id, answer.stat);
+          // console.log(answer.id, answer.state);
           if (answer.state) {
+            isCorrect = true;
             correctAnswers++;
             correctQuestionId.push(answer.question);
           }
         }
       });
+      // updating question corrects times stats
+      if (isCorrect) {
+        question.totalTimesSuccess += 1;
+      }
+      await question.save();
     }
     res.status(200).json({
       message: "Answers checked successfully!",

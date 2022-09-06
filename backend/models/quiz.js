@@ -62,7 +62,7 @@ quizSchema.virtual("passingRate").get(function () {
   if (this.totalTimesPlayed > 0) {
     return Math.round((this.totalTimesSuccess / this.totalTimesPlayed) * 100);
   } else {
-    return 0;
+    return null;
   }
 });
 
