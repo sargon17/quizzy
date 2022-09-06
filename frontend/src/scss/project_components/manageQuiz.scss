@@ -43,8 +43,15 @@
           font-weight: 700;
           border-radius: 100px;
           cursor: pointer;
-          width: 50px;
           // animation: name duration timing-function delay iteration-count direction fill-mode;
+
+          &--animation {
+            width: 50px;
+            &:hover {
+              animation: messageIn 500ms both ease-in-out;
+              width: 160px;
+            }
+          }
 
           &__message {
             // display: block;
@@ -61,9 +68,6 @@
           }
 
           &:hover {
-            animation: messageIn 500ms both ease-in-out;
-            width: 160px;
-
             .quiz-stats-badge__message {
               height: auto;
               width: 95px;
