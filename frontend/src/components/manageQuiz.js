@@ -427,11 +427,31 @@ export default function ManageQuiz({ isNewQuiz }) {
                   {data.title ? data.title : `Quiz by ${user.userName}`}
                 </h3>
                 {data.passingRate > 0 && (
-                  <div className="quiz-stats-badge">
+                  <div className="quiz-stats-badge quiz-stats-badge--animation">
                     <div className="quiz-stats-badge__message">
                       <p>Passing&nbsp;rate: </p>
                     </div>
                     <p>{data.passingRate}%</p>
+                  </div>
+                )}
+                {data.likes > 0 && (
+                  <div className="quiz-stats-badge">
+                    <p className="flex justify-center items-center gap-2 ">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-heart-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                        />
+                      </svg>
+                      {data.likes}
+                    </p>
                   </div>
                 )}
               </div>
