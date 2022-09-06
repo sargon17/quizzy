@@ -225,6 +225,46 @@ exports.quizSaveStats = async (req, res) => {
   }
 };
 
+exports.likeQuiz = async (req, res) => {
+  let quiz = await Quiz.findById(req.params.id).exec();
+  let user;
+  if (req.body.user !== null) {
+    user = await User.findById(req.body.user).exec();
+    if (!user) {
+      res.status(400).json({ message: "User not found" });
+    }
+  }
+  if (!quiz) {
+    res.status(400).json({ message: "Quiz not found" });
+  }
+  try {
+    if (quiz.likes === undefined) {
+      quiz.likes = 0;
+    }
+    if (user) {
+      if (user.likedQuizzes.includes(quiz.id)) {
+        user.likedQuizzes.pull(quiz.id);
+        quiz.likes -= 1;
+      } else {
+        user.likedQuizzes.push(quiz.id);
+        quiz.likes += 1;
+      }
+      await user.save();
+    } else {
+      if (req.body.like) {
+        quiz.likes += 1;
+      } else {
+        quiz.likes -= 1;
+      }
+    }
+    await quiz.save();
+    res.status(200);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // delete quiz
 exports.deleteQuiz = async (req, res) => {
   let quiz;
