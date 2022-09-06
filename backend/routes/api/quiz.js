@@ -13,6 +13,7 @@ const {
   lastQuizByCreator,
   updateQuiz,
   quizSaveStats,
+  likeQuiz,
 } = require("../../controllers/quiz.controller");
 
 // http://localhost:5000/api/quiz
@@ -25,6 +26,7 @@ router.get("/:id", quizById); // get quiz by id
 router.put("/:id", verifyToken, upload.single("image"), updateQuiz); // delete quiz by id
 router.delete("/:id/:userID", deleteQuiz); // delete quiz
 router.put("/stats/:id", quizSaveStats); // save quiz stats
+router.put("/like/:id", likeQuiz); // save likes
 
 // router.get("/secret", verifyToken, (req, res) => {
 //   "use strict";
