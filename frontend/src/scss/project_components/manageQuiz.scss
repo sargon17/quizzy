@@ -362,25 +362,3 @@
     }
   }
 }
-
-// questions sector
-
-.question-stat-badge {
-  p {
-    text-align: center;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: $c_text-secondary;
-  }
-
-  &--correct {
-    p {
-      color: $c_surface-green;
-    }
-  }
-  &--error {
-    p {
-      color: $c_error;
-    }
-  }
-}

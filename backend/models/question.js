@@ -17,16 +17,16 @@ const questionSchema = new mongoose.Schema(
     imageType: {
       type: String,
     },
+    totalAnswers: {
+      type: Number,
+      default: 0,
+    },
+    correctAnswers: {
+      type: Number,
+      default: 0,
+    },
     createdAt: { type: Date, default: Date.now },
     answers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answer" }],
-    totalTimesPlayed: {
-      type: Number,
-      default: 0,
-    },
-    totalTimesSuccess: {
-      type: Number,
-      default: 0,
-    },
   },
   {
     toJSON: { virtuals: true },
@@ -46,14 +46,6 @@ questionSchema.pre("remove", async function (next) {
     await Answer.deleteMany({ question: this._id });
   } catch (error) {
     next(error);
-  }
-});
-
-questionSchema.virtual("passingRate").get(function () {
-  if (this.totalTimesPlayed > 0) {
-    return Math.round((this.totalTimesSuccess / this.totalTimesPlayed) * 100);
-  } else {
-    return null;
   }
 });
 

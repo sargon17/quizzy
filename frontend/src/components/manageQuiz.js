@@ -258,7 +258,6 @@ export default function ManageQuiz({ isNewQuiz }) {
     axios
       .get(`http://localhost:5000/api/qa/${quizID}`)
       .then((response) => {
-        console.log(response.data);
         setQuestions(response.data);
         setIsQuestionLoaded(true);
       })
@@ -582,7 +581,7 @@ export default function ManageQuiz({ isNewQuiz }) {
               <table className="table">
                 <thead>
                   <tr>
-                    <th className="w-1/12">%&nbsp;Correct</th>
+                    <th className="w-1/12">Order</th>
                     <th className="w-5/12">Question</th>
                     <th className="w-2/12">Image</th>
                     <th className="w-2/12">Answers</th>
@@ -593,19 +592,7 @@ export default function ManageQuiz({ isNewQuiz }) {
                   {questions.map((question, index) => {
                     return (
                       <tr key={question.id}>
-                        <td>
-                          {question.passingRate != null && (
-                            <div
-                              className={
-                                question.passingRate > 50
-                                  ? "question-stat-badge question-stat-badge--correct"
-                                  : "question-stat-badge question-stat-badge--error"
-                              }
-                            >
-                              <p>{question.passingRate}%</p>
-                            </div>
-                          )}
-                        </td>
+                        <td>{index + 1}</td>
                         <td className="table__row--long table__description">
                           {question.text}
                         </td>
