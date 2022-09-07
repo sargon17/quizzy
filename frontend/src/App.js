@@ -39,6 +39,12 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.process = {
+      ...window.process,
+    };
+  }, []);
+
+  useEffect(() => {
     if (cookies.user && cookies.accessToken) {
       if (checkUserAuth(cookies)) {
         setIsAuthenticated(true);
