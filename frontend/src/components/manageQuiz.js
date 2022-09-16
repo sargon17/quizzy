@@ -40,6 +40,7 @@ export default function ManageQuiz({ isNewQuiz }) {
 
   const [questions, setQuestions] = useState([]);
   const [isAddQuestion, setIsAddQuestion] = useState(false);
+  const [editQuestionID, setEditQuestionID] = useState(" ");
 
   const newQuestionRef = useOnclickOutside(() => {
     setIsAddQuestion(false);
@@ -377,13 +378,19 @@ export default function ManageQuiz({ isNewQuiz }) {
                 </div>
               )}
               {isLoaded && !isImageOnLoad && (
-                <img
-                  src={image}
-                  alt="quiz cover"
-                  onDoubleClick={() => {
-                    setIsImageOnLoad(true);
-                  }}
-                />
+                <>
+                  <div className="image-upload__overflow"
+                    onDoubleClick={() => {
+                      setIsImageOnLoad(true);
+                    }}
+                  >
+                    <p>Double Click to change the cover</p>
+                  </div>
+                  <img
+                    src={image}
+                    alt="quiz cover"
+                  />
+                </>
               )}
               {isLoaded && isImageOnLoad && (
                 <LoadImage
@@ -588,6 +595,9 @@ export default function ManageQuiz({ isNewQuiz }) {
                         </td>
                         <td className="table__row--long table__description">
                           {question.text}
+                          {/* ========================================== Temp ====================================== */}
+                          {editQuestionID === question.id && question.id}
+                          {/* ========================================== Temp ====================================== */}
                         </td>
                         <td>
                           {question.image && question.imageType ? (
@@ -632,9 +642,9 @@ export default function ManageQuiz({ isNewQuiz }) {
                         </td>
                         <td>
                           <div className="flex justify-start items-center">
-                            <Link
-                              to={``}
+                            <button
                               className="btn btn-primary  btn-round-s btn-icon btn-icon--sm m-0 mr-2"
+                              onClick={() => setEditQuestionID(question.id)}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -650,7 +660,7 @@ export default function ManageQuiz({ isNewQuiz }) {
                                   d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                                 />
                               </svg>
-                            </Link>
+                            </button>
                             <button
                               onClick={() => deleteQuestion(question.id)}
                               className="btn btn-error btn-round-s btn-icon btn-icon--sm m-0"

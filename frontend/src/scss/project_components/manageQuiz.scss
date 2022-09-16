@@ -16,11 +16,44 @@
         border-radius: 8px;
         overflow: hidden;
         background: #acacac;
+        position: relative;
+
+        &__overflow {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: adjust-color($color: $c_primary-600, $alpha: -0.4);
+          color: adjust-color(
+            $color: $c_primary,
+            $lightness: 50%,
+            $alpha: -0.2
+          );
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+          opacity: 0;
+          p {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 400;
+            pointer-events: none;
+          }
+        }
 
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+        }
+        &:hover {
+          .image-upload__overflow {
+            opacity: 1;
+          }
         }
       }
     }
